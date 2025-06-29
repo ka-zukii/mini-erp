@@ -18,7 +18,13 @@ pip install -r requirements.txt
 
 ## Database Migration Guide
 
-### 1. Buat Migration Baru (Initial Migration)
+### 1. Konfigurasi .env
+
+Rubah file .env.example menjadi .env lalu pada nilai DATABASE_URL dirubah menggunakan URL Database yang kamu miliki. 
+
+Noted: Proyek ini menggunakan PostgreeSQL sebagai database utama.
+
+### 2. Buat Migration Baru (Initial Migration)
 
 Jalankan perintah berikut untuk membuat file migration berdasarkan perubahan pada models:
 
@@ -26,7 +32,7 @@ Jalankan perintah berikut untuk membuat file migration berdasarkan perubahan pad
 alembic revision --autogenerate -m "initial"
 ```
 
-### 2. Terapkan Migration ke Database (Push Migration)
+### 3. Terapkan Migration ke Database (Push Migration)
 
 Setelah file migration dibuat, jalankan perintah ini untuk menerapkan perubahan ke database:
 
