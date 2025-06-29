@@ -1,6 +1,6 @@
 from sqlalchemy import Column, String, Date, Enum, Integer, ForeignKey
 from sqlalchemy.orm import relationship
-from shared.database.db import Base, generate_cuid
+from database.db import Base, generate_cuid
 
 class Transaksi(Base):
     id = Column(String, primary_key=True, index=True, default=generate_cuid)

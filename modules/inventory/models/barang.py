@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, Enum, DECIMAL, ForeignKey
 from sqlalchemy.orm import relationship
-from shared.database.db import Base, generate_cuid
+from database.db import Base, generate_cuid
 
 class Barang(Base):
     __tablename__ = "barang"

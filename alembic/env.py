@@ -3,15 +3,15 @@ from sqlalchemy import create_engine
 from alembic import context
 from sqlalchemy import pool
 from logging.config import fileConfig
-from shared.database.db import Base
+from database.db import Base
 from dotenv import load_dotenv
 
-import shared.models.barang
-import shared.models.kategori
-import shared.models.gudang
-import shared.models.pengguna
-import shared.models.log_aktivitas
-import shared.models.supplier
+import modules.inventory.models.barang
+import modules.inventory.models.kategori
+import modules.inventory.models.gudang
+import modules.inventory.models.pengguna
+import modules.inventory.models.log_aktivitas
+import modules.inventory.models.supplier
 
 load_dotenv()
 

@@ -2,18 +2,18 @@
 
 ## Setup Project Python
 
-Pastikan kamu sudah menginstall dependensi yang diperlukan:
-
-```bash
-pip install -r requirements.txt
-```
-
-Jika belum ada environment, kamu bisa membuat virtual environment terlebih dahulu (opsional tapi disarankan):
+Membuat virtual environment (opsional tapi disarankan):
 
 ```bash
 python -m venv venv
 source venv/bin/activate  # Mac/Linux
 venv\Scripts\activate   # Windows
+```
+
+Install dependensi yang diperlukan:
+
+```bash
+pip install -r requirements.txt
 ```
 
 ## Database Migration Guide

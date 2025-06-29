@@ -1,7 +1,7 @@
 from sqlalchemy import Column, String, ForeignKey, DateTime, JSON
 from sqlalchemy.orm import relationship
 from datetime import datetime
-from shared.database.db import Base, generate_cuid
+from database.db import Base, generate_cuid
 
 class LogAktivitas(Base):
     __tablename__ = "log_aktivitas"
