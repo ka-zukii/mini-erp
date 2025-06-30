@@ -3,7 +3,9 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database.db import Base
 from modules.inventory.services.barang_service import BarangService
+from modules.inventory.services.gudang_service import GudangService
 from modules.inventory.schemas.barang_schema import BarangCreate, BarangUpdate
+from modules.inventory.schemas.gudang_schema import GudangCreate
 
 @pytest.fixture(scope="function")
 def db_session():
@@ -16,6 +18,15 @@ def db_session():
     Base.metadata.drop_all(bind=engine)
 
 def test_create_and_get_barang(db_session):
+    # Make Gudang
+    gudang_data = GudangCreate(
+        nama="Gudang A",
+        lokasi="Jakarta",
+        keterangan="Gudang Pusat"
+    )
+    
+    gudang = GudangService.store(db_session, gudang_data)
+    
     barang_data = BarangCreate(
         kd_barang="BRG001",
         nama="Sabun Mandi",
@@ -25,12 +36,12 @@ def test_create_and_get_barang(db_session):
         harga_jual=7000,
         stock=20,
         id_kategori=None,
-        id_gudang="gudang1"
+        id_gudang= gudang.id
     )
     
     created = BarangService.store(db_session, barang_data)
     assert created.id is not None
-    assert created.name == "Sabun Mandi"
+    assert created.nama == "Sabun Mandi"
     
     fetched = BarangService.get_by_id(db_session, created.id)
     assert fetched is not None

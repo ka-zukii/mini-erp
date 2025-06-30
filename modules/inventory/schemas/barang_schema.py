@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import Optional
 from enum import Enum
 from decimal import Decimal
@@ -38,5 +38,4 @@ class BarangDelete(BaseModel):
 class BarangResponse(BarangBase):
     id: str
     
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)

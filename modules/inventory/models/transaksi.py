@@ -3,6 +3,8 @@ from sqlalchemy.orm import relationship
 from database.db import Base, generate_cuid
 
 class Transaksi(Base):
+    __tablename__ = "transaksi"
+    
     id = Column(String, primary_key=True, index=True, default=generate_cuid)
     tanggal = Column(Date, nullable=False)
     jenis = Column(Enum('masuk', 'keluar', name="jenis_enum"), nullable=False)

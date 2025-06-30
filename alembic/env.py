@@ -5,13 +5,7 @@ from sqlalchemy import pool
 from logging.config import fileConfig
 from database.db import Base
 from dotenv import load_dotenv
-
-import modules.inventory.models.barang
-import modules.inventory.models.kategori
-import modules.inventory.models.gudang
-import modules.inventory.models.pengguna
-import modules.inventory.models.log_aktivitas
-import modules.inventory.models.supplier
+from modules.inventory.models import *
 
 load_dotenv()
 

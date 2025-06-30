@@ -9,7 +9,7 @@ class Gudang(Base):
     nama = Column(String, nullable=False)
     lokasi = Column(String, nullable=True)
     keterangan = Column(String, nullable=True)
-    
+
     log_gudang = relationship("LogAktivitas", back_populates="gudang", cascade="all, delete")
     pengguna_list = relationship("Pengguna", back_populates="gudang", cascade="all, delete")
     barang_list = relationship("Barang", back_populates="gudang", cascade="all, delete")

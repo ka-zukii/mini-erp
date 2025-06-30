@@ -9,7 +9,7 @@ class Barang(Base):
     kd_barang = Column(String, nullable=False, index=True)
     nama = Column(String, nullable=False)
     deskripsi = Column(String, nullable=True)
-    satuan = Column(Enum('psc', 'kg', 'liter', name='satuan_enum'), nullable=False)
+    satuan = Column(Enum('pcs', 'kg', 'liter', name='satuan_enum'), nullable=False)
     harga_beli = Column(DECIMAL, nullable=False)
     harga_jual = Column(DECIMAL, nullable=True)
     stock = Column(Integer, nullable=False)
