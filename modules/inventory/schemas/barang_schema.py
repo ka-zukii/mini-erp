@@ -29,7 +29,7 @@ class BarangUpdate(BaseModel):
     satuan: Optional[SatuanEnum] = None
     harga_beli: Optional[Decimal] = None
     harga_jual: Optional[Decimal] = None
-    stock: Optional[Decimal] = None
+    stock: Optional[int] = None
     id_kategori: Optional[str] = None
 
 class BarangDelete(BaseModel):

@@ -33,11 +33,11 @@ class BarangService:
         if not barang:
             return None
         
-        for field, value in data.dict(exclude_unset=True).items():
+        for field, value in data.model_dump(exclude_unset=True).items():
             setattr(barang, field, value)
         
         db.commit()
-        db.refresh()
+        db.refresh(barang)
         return barang
     
     def destroy(db: Session, id: str):
@@ -46,6 +46,6 @@ class BarangService:
         if not barang:
             return False
         
-        db.delete(Barang)
+        db.delete(barang)
         db.commit()
         return True

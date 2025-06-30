@@ -27,11 +27,11 @@ class GudangService:
         if not gudang:
             return None
         
-        for field, value in data.dict(exclude_unset=True).items():
+        for field, value in data.model_dump(exclude_unset=True).items():
             setattr(gudang, field, value)
         
         db.commit()
-        db.refresh()
+        db.refresh(gudang)
         return gudang
     
     def destroy(db: Session, id: str):
@@ -40,6 +40,6 @@ class GudangService:
         if not gudang:
             return False
         
-        db.delete(Gudang)
+        db.delete(gudang)
         db.commit()
         return True
