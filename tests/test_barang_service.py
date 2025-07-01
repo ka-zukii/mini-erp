@@ -2,6 +2,7 @@ import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database.db import Base
+
 from modules.inventory.services.barang_service import BarangService
 from modules.inventory.services.gudang_service import GudangService
 from modules.inventory.schemas.barang_schema import BarangCreate, BarangUpdate

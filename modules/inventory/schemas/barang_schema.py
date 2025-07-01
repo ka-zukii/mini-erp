@@ -13,7 +13,7 @@ class BarangBase(BaseModel):
     kd_barang: str
     nama: str
     deskripsi: Optional[str] = None
-    satuan: str
+    satuan: SatuanEnum
     harga_beli: Decimal
     harga_jual: Optional[Decimal] = None
     stock: int
