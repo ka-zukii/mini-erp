@@ -14,8 +14,8 @@ class ScannerService:
     API_KEY = os.getenv("OPENROUTER_KEY")
 
     @staticmethod
-    def scan_one() -> str:
-        image = Image.open("assets/invo.jpeg")
+    def ocr(path: str) -> str:
+        image = Image.open(path)
         text = pytesseract.image_to_string(image, lang="ind")
         
         # print(text)
@@ -58,8 +58,8 @@ class ScannerService:
         except Exception as e:
             return f"An unexpected error occurred: {e}"
     
-    def store_barang():
-        data_scanner = json.loads(ScannerService.scan_one())
+    def scan_barang(path: str):
+        data_scanner = json.loads(ScannerService.ocr(path))
         
         # print(data_scanner)
         

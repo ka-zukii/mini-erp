@@ -5,11 +5,14 @@ from PyQt5.QtCore import Qt, QSize
 import resources_rc
 import data_dummy
 
+from modules.inventory.services.scanner_service import ScannerService
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
         uic.loadUi("ui/minierp_cool.ui", self)
         
+        # Side menu
         # Hide icon only sidebar when app start
         self.icon_only_widget.hide()
         
@@ -78,7 +81,7 @@ class MainWindow(QMainWindow):
             "All Files (*);;Text Files (*.txt);;Images (*.png *.jpg)"
         )
         if file_path:
-            print("File dipilih:", file_path)
+            ScannerService.scan_barang(file_path)
 
     # Function for load dummy data from data_dummy.py
     def load_data(self):
