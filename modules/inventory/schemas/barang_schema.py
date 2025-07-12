@@ -18,6 +18,7 @@ class BarangBase(BaseModel):
     harga_jual: Optional[Decimal] = None
     stock: int
     id_kategori: Optional[str]
+    id_supplier: Optional[str]
     id_gudang: str
 
 class BarangCreate(BarangBase):
@@ -31,6 +32,7 @@ class BarangUpdate(BaseModel):
     harga_jual: Optional[Decimal] = None
     stock: Optional[int] = None
     id_kategori: Optional[str] = None
+    id_supplier: Optional[str] = None
 
 class BarangDelete(BaseModel):
     id:str

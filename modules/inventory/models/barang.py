@@ -15,10 +15,11 @@ class Barang(Base):
     stock = Column(Integer, nullable=False)
 
     id_kategori = Column(String, ForeignKey('kategori.id', ondelete='CASCADE'), nullable=True)
+    id_supplier = Column(String, ForeignKey('supplier.id', ondelete='CASCADE'), nullable=True)
     id_gudang = Column(String, ForeignKey('gudang.id', ondelete='CASCADE'), nullable=False)
     
     gudang = relationship('Gudang', back_populates='barang_list')
     kategori = relationship("Kategori", back_populates="barang_list")
+    supplier = relationship('Supplier', back_populates='barang_list')
     
-    supplier_list = relationship("Supplier", back_populates="barang", cascade="all, delete", uselist=False)
     transaksi_list = relationship("Transaksi", back_populates="barang", cascade="all, delete")

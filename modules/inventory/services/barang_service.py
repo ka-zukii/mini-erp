@@ -19,6 +19,7 @@ class BarangService:
             harga_jual = data.harga_jual,
             stock = data.stock,
             id_kategori = data.id_kategori,
+            id_supplier = data.id_supplier,
             id_gudang = data.id_gudang
         )
         

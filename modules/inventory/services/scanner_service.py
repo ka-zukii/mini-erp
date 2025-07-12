@@ -5,6 +5,9 @@ import json
 import os
 from dotenv import load_dotenv
 
+from modules.inventory.services.barang_service import BarangService
+from modules.inventory.schemas.barang_schema import BarangCreate
+
 load_dotenv()
 
 class ScannerService:
@@ -12,7 +15,7 @@ class ScannerService:
 
     @staticmethod
     def scan_one() -> str:
-        image = Image.open("assets/invoice.jpeg")
+        image = Image.open("assets/invo.jpeg")
         text = pytesseract.image_to_string(image, lang="ind")
         
         # print(text)
@@ -54,3 +57,25 @@ class ScannerService:
             return f"Error decoding JSON response: {e}"
         except Exception as e:
             return f"An unexpected error occurred: {e}"
+    
+    def store_barang():
+        data_scanner = json.loads(ScannerService.scan_one())
+        
+        # print(data_scanner)
+        
+        for i, item in enumerate(data_scanner["items"], start=1):
+            kd_barang = f"BRG{i:04d}"
+            
+            data_barang = BarangCreate(
+                kd_barang=kd_barang,
+                nama=item["nama_barang"],
+                satuan=item["satuan"].lower(),
+                stock=item["stock"],
+                harga_beli=item["harga_beli"],
+                harga_jual=None,
+                id_kategori=None,
+                id_supplier=None,
+                id_gudang="GD1"
+            )
+            
+            print(data_barang)

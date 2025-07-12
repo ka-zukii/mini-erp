@@ -3,10 +3,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database.db import Base
 
-from modules.inventory.schemas.barang_schema import BarangCreate
 from modules.inventory.schemas.gudang_schema import GudangCreate
 from modules.inventory.schemas.supplier_schema import SupplierCreate, SupplierUpdate
-from modules.inventory.services.barang_service import BarangService
 from modules.inventory.services.gudang_service import GudangService
 from modules.inventory.services.supplier_service import SupplierService
 
@@ -31,29 +29,11 @@ def init_gudang(db_session) -> str:
     
     return gudang.id
 
-def init_barang(db_session) -> str:
-    barang_data = BarangCreate(
-        kd_barang="BRG001",
-        nama="Sabun Mandi",
-        deskripsi="Sabun mandi batang 100gram",
-        satuan="pcs",
-        harga_beli=5000,
-        harga_jual=7000,
-        stock=20,
-        id_kategori=None,
-        id_gudang= init_gudang(db_session)
-    )
-    
-    barang = BarangService.store(db_session, barang_data)
-    
-    return barang.id
-
 def test_create_and_get_supplier(db_session):
     supplier_data = SupplierCreate(
         nama="Jokonis",
         telepon="085161742553",
-        alamat="Surakarta ngidul sitik",
-        id_barang=init_barang(db_session)
+        alamat="Surakarta ngidul sitik"
     )
     
     created = SupplierService.store(db_session, supplier_data)
@@ -68,15 +48,13 @@ def test_get_all_supplier(db_session):
     supplier_data1 = SupplierCreate(
         nama="Jokonis",
         telepon="085161742553",
-        alamat="Surakarta ngidul sitik",
-        id_barang=init_barang(db_session)
+        alamat="Surakarta ngidul sitik"
     )
     
     supplier_data2 = SupplierCreate(
         nama="Bowonis",
         telepon="085161742553",
-        alamat="Surakarta ngidul sitik",
-        id_barang=init_barang(db_session)
+        alamat="Surakarta ngidul sitik"
     )
     
     SupplierService.store(db_session, supplier_data1)
@@ -89,8 +67,7 @@ def test_update_supplier(db_session):
     supplier_data = SupplierCreate(
         nama="Jokonis",
         telepon="085161742553",
-        alamat="Surakarta ngidul sitik",
-        id_barang=init_barang(db_session)
+        alamat="Surakarta ngidul sitik"
     )
     
     created = SupplierService.store(db_session, supplier_data)
@@ -103,8 +80,7 @@ def test_delete_supplier(db_session):
     supplier_data = SupplierCreate(
         nama="Jokonis",
         telepon="085161742553",
-        alamat="Surakarta ngidul sitik",
-        id_barang=init_barang(db_session)
+        alamat="Surakarta ngidul sitik"
     )
     
     created = SupplierService.store(db_session, supplier_data)

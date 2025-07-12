@@ -1,7 +1,13 @@
-from modules.inventory.services.scanner_service import ScannerService
+from front_page import MainWindow
+from PyQt5.QtWidgets import QApplication
+import sys
 
 def app():
-    print(ScannerService.scan_one())
+    app = QApplication(sys.argv)
+    
+    window = MainWindow()
+    window.show()
+    app.exec()
 
 if __name__ == "__main__":
     app()

@@ -9,6 +9,5 @@ class Supplier(Base):
     nama = Column(String, nullable=False)
     telepon = Column(String, nullable=False)
     alamat = Column(String, nullable=False)
-    id_barang = Column(String, ForeignKey("barang.id", ondelete="CASCADE"), nullable=False, unique=True)
     
-    barang = relationship("Barang", back_populates="supplier_list")
+    barang_list = relationship("Barang", back_populates='supplier', cascade="all, delete")

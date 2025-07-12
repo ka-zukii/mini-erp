@@ -39,6 +39,7 @@ def test_create_and_get_barang(db_session):
         harga_jual=7000,
         stock=20,
         id_kategori=None,
+        id_supplier=None,
         id_gudang= init_gudang(db_session)
     )
     
@@ -60,6 +61,7 @@ def test_get_all_barang(db_session):
         harga_jual=7000,
         stock=20,
         id_kategori=None,
+        id_supplier=None,
         id_gudang=init_gudang(db_session)
     )
     
@@ -72,6 +74,7 @@ def test_get_all_barang(db_session):
         harga_jual=12000,
         stock=10,
         id_kategori=None,
+        id_supplier=None,
         id_gudang=init_gudang(db_session)
     )
     
@@ -91,6 +94,7 @@ def test_update_barang(db_session):
         harga_jual=7000,
         stock=20,
         id_kategori=None,
+        id_supplier=None,
         id_gudang= init_gudang(db_session)
     )
     
@@ -111,6 +115,7 @@ def test_delete_barang(db_session):
         harga_jual=7000,
         stock=20,
         id_kategori=None,
+        id_supplier=None,
         id_gudang= init_gudang(db_session)
     )
     
