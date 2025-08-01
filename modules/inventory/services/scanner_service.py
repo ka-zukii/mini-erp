@@ -8,6 +8,8 @@ from dotenv import load_dotenv
 from modules.inventory.services.barang_service import BarangService
 from modules.inventory.schemas.barang_schema import BarangCreate
 
+from database.db import local_session
+
 load_dotenv()
 
 class ScannerService:
@@ -61,7 +63,8 @@ class ScannerService:
     def scan_barang(path: str):
         data_scanner = json.loads(ScannerService.ocr(path))
         
-        # print(data_scanner)
+        print(data_scanner)
+        db = local_session()
         
         for i, item in enumerate(data_scanner["items"], start=1):
             kd_barang = f"BRG{i:04d}"
@@ -78,4 +81,5 @@ class ScannerService:
                 id_gudang="GD1"
             )
             
-            print(data_barang)
+            BarangService.store(db, data_barang)
+            # print(data_barang)

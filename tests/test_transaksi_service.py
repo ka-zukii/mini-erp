@@ -41,6 +41,7 @@ def init_barang(db_session, id_gudang) -> str:
         harga_jual=7000,
         stock=20,
         id_kategori=None,
+        id_supplier=None,
         id_gudang= id_gudang
     )
     
