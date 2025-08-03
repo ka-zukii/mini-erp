@@ -7,32 +7,44 @@ from dotenv import load_dotenv
 
 from modules.inventory.services.barang_service import BarangService
 from modules.inventory.schemas.barang_schema import BarangCreate
+from modules.inventory.services.supplier_service import SupplierService
+from modules.inventory.schemas.supplier_schema import SupplierCreate
 
-from database.db import local_session
+from database.db import db
 
 load_dotenv()
 
-class ScannerService:
-    API_KEY = os.getenv("OPENROUTER_KEY")
+# Service untuk mengelola operasi bisnis pada pemindaian invoice
 
+class ScannerService:
+    # Metode statis untuk menyimpan data hasil pemindaian invoice
     @staticmethod
-    def ocr(path: str) -> str:
+    def scan_invoice(path: str):
+        # Menggunakan pytesseract untuk membaca teks dari gambar
         image = Image.open(path)
         text = pytesseract.image_to_string(image, lang="ind")
         
         # print(text)
-
+        
+        # Menggunakan OpenRouter API untuk memproses teks
         with open("configs/promp.txt", "r", encoding="utf-8") as file:
             context = file.read()
-
+        
+        # Mengambil API key dari environment variable
+        API_KEY = os.getenv("OPENROUTER_KEY")
+        
+        # URL untuk OpenRouter API
         url = "https://openrouter.ai/api/v1/chat/completions"
-
+        
+        # Headers untuk permintaan API
         headers = {
-            "Authorization": f"Bearer {ScannerService.API_KEY}",
+            "Authorization": f"Bearer {API_KEY}",
             "Content-Type": "application/json",
             "X-Title": "MiniERP OCR Scanner"
         }
-
+        
+        # Data yang akan dikirim ke API
+        # Menggunakan model GPT-3.5 Turbo
         data = {
             "model": "openai/gpt-3.5-turbo-0613",
             "messages": [
@@ -42,33 +54,63 @@ class ScannerService:
         }
 
         try:
+            # Mengirim permintaan POST ke API
             response = requests.post(url, headers=headers, json=data)
+            # Memeriksa apakah permintaan berhasil
             response.raise_for_status()
+            # Mengambil hasil dari respons JSON
             result = response.json()
 
+            # Memeriksa apakah ada pilihan dalam respons
             if "choices" in result and len(result["choices"]) > 0:
-                return result["choices"][0]["message"]["content"]
+                # Mengambil konten dari pilihan pertama
+                payload: str = str(result["choices"][0]["message"]["content"])
+                # Mengonversi string JSON menjadi objek Python
+                # Memanggil metode untuk menyimpan data
+                ScannerService.save_data(json.loads(payload))
             else:
-                return "Error: Unexpected response structure"
+                print( "Error: Unexpected response structure")
 
         except requests.exceptions.RequestException as e:
-            return f"Request failed: {e}"
+            print( f"Request failed: {e}")
         except KeyError as e:
-            return f"Error processing response (KeyError): {e}"
+            print( f"Error processing response (KeyError): {e}")
         except json.JSONDecodeError as e:
-            return f"Error decoding JSON response: {e}"
+            print( f"Error decoding JSON response: {e}")
         except Exception as e:
-            return f"An unexpected error occurred: {e}"
+            print( f"An unexpected error occurred: {e}")
     
-    def scan_barang(path: str):
-        data_scanner = json.loads(ScannerService.ocr(path))
+    # Metode statis untuk menyimpan data hasil pemindaian
+    @staticmethod
+    def save_data(data_scanner: json):
+        # data_scanner = json.loads(ScannerService.scan_invoice(path))
         
         print(data_scanner)
-        db = local_session()
         
+        # Mengambil data supplier dari hasil pemindaian
+        supp = data_scanner["supplier"]
+        
+        if supp["telepon"] is None:
+            telepon = "0"
+        else: telepon = supp["telepon"]
+        
+        data_supplier = SupplierCreate(
+            nama= supp["nama"],
+            alamat=supp["alamat"],
+            telepon= telepon
+        )
+        
+        # print(data_supplier)
+        # Menyimpan data supplier
+        supplier = SupplierService.store(db, data_supplier)
+        
+        # Mengambil data barang dari hasil pemindaian
         for i, item in enumerate(data_scanner["items"], start=1):
+            # Menggunakan format kode barang yang unik
+            # Misalnya: BRG0001, BRG0002, dst.
             kd_barang = f"BRG{i:04d}"
             
+            # Membuat objek BarangCreate dengan data yang diperlukan
             data_barang = BarangCreate(
                 kd_barang=kd_barang,
                 nama=item["nama_barang"],
@@ -81,5 +123,5 @@ class ScannerService:
                 id_gudang="GD1"
             )
             
-            BarangService.store(db, data_barang)
+            # BarangService.store(db, data_barang)
             # print(data_barang)

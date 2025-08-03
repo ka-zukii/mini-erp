@@ -6,16 +6,22 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Getting database url from .env
+# Memdaftarkan URL database
 DATABASE_URL= f'postgresql+psycopg2://{os.environ.get("DATABASE_URL")}'
 
-# Make CUID
+# Membuat generator CUID
 CUID_GENERATOR: Cuid = Cuid(length=10)
 
+# Membuat koneksi ke database
 engine = create_engine(DATABASE_URL)
 local_session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
+# Membuat sesi lokal
+db = local_session()
+
+# Membuat base untuk model
 Base = declarative_base()
 
+# Fungsi untuk membuat CUID
 def generate_cuid():
     return CUID_GENERATOR.generate()

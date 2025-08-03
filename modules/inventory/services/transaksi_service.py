@@ -3,12 +3,15 @@ from modules.inventory.schemas.transaksi_schema import TransaksiCreate, Transaks
 from modules.inventory.models import *
 
 class TransaksiService:
+    @staticmethod
     def get_all(db: Session):
         return db.query(Transaksi).all()
     
+    @staticmethod
     def get_by_id(db: Session, id: str):
         return db.query(Transaksi).filter(Transaksi.id == id).first()
     
+    @staticmethod
     def store(db: Session, data: TransaksiCreate):
         data_transaksi = Transaksi(
             tanggal = data.tanggal,
@@ -24,6 +27,7 @@ class TransaksiService:
         db.refresh(data_transaksi)
         return data_transaksi
     
+    @staticmethod
     def update(db: Session, id: str, data: TransaksiUpdate):
         transaksi = db.query(Transaksi).filter(Transaksi.id == id).first()
         
@@ -37,6 +41,7 @@ class TransaksiService:
         db.refresh(transaksi)
         return transaksi
     
+    @staticmethod
     def destroy(db: Session, id: str):
         transaksi = db.query(Transaksi).filter(Transaksi.id == id).first()
         

@@ -1,11 +1,15 @@
 from pydantic import BaseModel, ConfigDict
 from typing import Optional
 
+# Schema Gudang
+
+# Base schema untuk Gudang
 class GudangBase(BaseModel):
     nama: str
     lokasi: str
     keterangan: str
 
+# Schema untuk operasi CRUD pada Gudang
 class GudangCreate(GudangBase):
     pass
 
@@ -19,5 +23,4 @@ class GudangDelete(BaseModel):
 
 class GudangResponse(GudangBase):
     id: str
-    
     model_config = ConfigDict(from_attributes=True)

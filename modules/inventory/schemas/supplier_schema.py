@@ -1,11 +1,15 @@
 from pydantic import BaseModel, ConfigDict
 from typing import Optional
 
+# Schema Supplier
+
+# Base schema untuk Supplier
 class SupplierBase(BaseModel):
     nama: str
     telepon: str
     alamat: str
 
+# Schema untuk operasi CRUD pada Supplier
 class SupplierCreate(SupplierBase):
     pass
 
@@ -19,5 +23,4 @@ class SupplierDelete(BaseModel):
 
 class SupplierResponse(SupplierBase):
     id: str
-    
     model_config = ConfigDict(from_attributes=True)

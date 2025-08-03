@@ -4,7 +4,7 @@ from .kategori import Kategori
 from .supplier import Supplier
 from .transaksi import Transaksi
 
-# Trigger semua model ter-load ke dalam registry SQLAlchemy
+# Import semua model yang ada di dalam modul inventory
 __all__ = [
     "Barang",
     "Gudang",

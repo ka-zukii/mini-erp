@@ -3,12 +3,15 @@ from modules.inventory.schemas.kategori_schema import KategoriCreate, KategoriUp
 from modules.inventory.models import *
 
 class KategoriService:
+    @staticmethod
     def get_all(db: Session):
         return db.query(Kategori).all()
     
+    @staticmethod
     def get_by_id(db: Session, id: str):
         return db.query(Kategori).filter(Kategori.id == id).first()
     
+    @staticmethod
     def store(db: Session, data: KategoriCreate):
         data_kategori = Kategori(
             nama = data.nama,
@@ -21,6 +24,7 @@ class KategoriService:
         db.refresh(data_kategori)
         return data_kategori
     
+    @staticmethod
     def update(db: Session, id: str, data: KategoriUpdate):
         kategori = db.query(Kategori).filter(Kategori.id == id).first()
         
@@ -34,6 +38,7 @@ class KategoriService:
         db.refresh(kategori)
         return kategori
     
+    @staticmethod
     def destroy(db: Session, id: str):
         kategori = db.query(Kategori).filter(Kategori.id == id).first()
         

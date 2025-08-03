@@ -3,12 +3,15 @@ from modules.inventory.schemas.supplier_schema import SupplierCreate, SupplierUp
 from modules.inventory.models import *
 
 class SupplierService:
+    @staticmethod
     def get_all(db: Session):
         return db.query(Supplier).all()
     
+    @staticmethod
     def get_by_id(db: Session, id: str):
         return db.query(Supplier).filter(Supplier.id == id).first()
     
+    @staticmethod
     def store(db: Session, data: SupplierCreate):
         data_supplier = Supplier(
             nama = data.nama,
@@ -21,6 +24,7 @@ class SupplierService:
         db.refresh(data_supplier)
         return data_supplier
     
+    @staticmethod
     def update(db: Session, id: str, data: SupplierUpdate):
         supplier = db.query(Supplier).filter(Supplier.id == id).first()
         
@@ -34,6 +38,7 @@ class SupplierService:
         db.refresh(supplier)
         return supplier
     
+    @staticmethod
     def destroy(db: Session, id: str):
         supplier = db.query(Supplier).filter(Supplier.id == id).first()
         

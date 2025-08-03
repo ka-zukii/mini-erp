@@ -3,10 +3,14 @@ from typing import Optional
 from datetime import date
 from enum import Enum
 
+# Schema Transaksi 
+
+# Enum untuk jenis transaksi
 class JenisEnum(str, Enum):
     masuk = 'masuk'
     keluar = 'keluar'
 
+# Base schema untuk Transaksi
 class TransaksiBase(BaseModel):
     tanggal: date
     jenis: JenisEnum
@@ -15,6 +19,7 @@ class TransaksiBase(BaseModel):
     id_barang: str
     id_gudang: str
 
+# Schema untuk operasi CRUD pada Transaksi
 class TransaksiCreate(TransaksiBase):
     pass
 
@@ -31,5 +36,4 @@ class TransaksiDelete(BaseModel):
 
 class TransaksiResponse(TransaksiBase):
     id: str
-    
     model_config = ConfigDict(from_attributes=True)

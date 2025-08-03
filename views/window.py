@@ -2,7 +2,6 @@ from PyQt5.QtWidgets import QMainWindow, QTableWidgetItem, QToolButton, QFileDia
 from PyQt5 import uic
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt, QSize
-import resources_rc
 import data_dummy
 
 from modules.inventory.services.scanner_service import ScannerService

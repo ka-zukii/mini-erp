@@ -3,12 +3,15 @@ from typing import Optional
 from enum import Enum
 from decimal import Decimal
 
-# Enum Satuan
+# Schema Barang
+
+# Enum untuk satuan barang
 class SatuanEnum(str, Enum):
     pcs = "pcs"
     kg = "kg"
     liter = "liter"
 
+# Base schema untuk Barang
 class BarangBase(BaseModel):
     kd_barang: str
     nama: str
@@ -21,6 +24,7 @@ class BarangBase(BaseModel):
     id_supplier: Optional[str]
     id_gudang: str
 
+# Schema untuk operasi CRUD pada Barang
 class BarangCreate(BarangBase):
     pass
 
@@ -39,5 +43,4 @@ class BarangDelete(BaseModel):
 
 class BarangResponse(BarangBase):
     id: str
-    
     model_config = ConfigDict(from_attributes=True)

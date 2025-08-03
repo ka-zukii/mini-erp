@@ -8,16 +8,28 @@ from modules.inventory.services.gudang_service import GudangService
 from modules.inventory.schemas.barang_schema import BarangCreate, BarangUpdate
 from modules.inventory.schemas.gudang_schema import GudangCreate
 
+# Testing configuration untuk service barang dengan pytest
+# Menggunakan SQLite in-memory database untuk testing
+
 @pytest.fixture(scope="function")
+# Fungsi untuk membuat sesi database lokal untuk testing
 def db_session():
+    # Membuat engine SQLite in-memory
+    # Ini akan membuat database yang hanya ada selama sesi testing
     engine = create_engine("sqlite:///:memory:")
+    # Membuat semua tabel yang diperlukan
     TestingSessionLocal = sessionmaker(bind=engine)
     Base.metadata.create_all(bind=engine)
+    # Membuat sesi database lokal
     session = TestingSessionLocal()
+    # Menggunakan yield untuk mengembalikan sesi ke fungsi testing
+    # Setelah testing selesai, sesi akan ditutup dan tabel akan dihapus
     yield session
     session.close()
     Base.metadata.drop_all(bind=engine)
 
+# Inisialisasi gudang untuk testing
+# Fungsi ini akan membuat gudang baru dan mengembalikan ID-nya
 def init_gudang(db_session):
     gudang_data = GudangCreate(
         nama="Gudang A",
@@ -29,6 +41,7 @@ def init_gudang(db_session):
     
     return gudang.id
 
+# Testing fungsi CRUD pada BarangService
 def test_create_and_get_barang(db_session):
     barang_data = BarangCreate(
         kd_barang="BRG001",
