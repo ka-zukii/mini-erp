@@ -16,7 +16,8 @@ class SupplierService:
         data_supplier = Supplier(
             nama = data.nama,
             telepon = data.telepon,
-            alamat = data.alamat
+            alamat = data.alamat,
+            id_gudang = data.id_gudang
         )
         
         db.add(data_supplier)

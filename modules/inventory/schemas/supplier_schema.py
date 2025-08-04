@@ -8,6 +8,7 @@ class SupplierBase(BaseModel):
     nama: str
     telepon: str
     alamat: str
+    id_gudang: str
 
 # Schema untuk operasi CRUD pada Supplier
 class SupplierCreate(SupplierBase):
@@ -17,6 +18,7 @@ class SupplierUpdate(BaseModel):
     nama: Optional[str] = None
     telepon: Optional[str] = None
     alamat: Optional[str] = None
+    id_gudang: Optional[str] = None
 
 class SupplierDelete(BaseModel):
     id: str

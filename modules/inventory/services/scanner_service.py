@@ -19,7 +19,7 @@ load_dotenv()
 class ScannerService:
     # Metode statis untuk menyimpan data hasil pemindaian invoice
     @staticmethod
-    def scan_invoice(path: str):
+    def scan_invoice(path: str, id_gudang: str):
         # Menggunakan pytesseract untuk membaca teks dari gambar
         image = Image.open(path)
         text = pytesseract.image_to_string(image, lang="ind")
@@ -67,7 +67,7 @@ class ScannerService:
                 payload: str = str(result["choices"][0]["message"]["content"])
                 # Mengonversi string JSON menjadi objek Python
                 # Memanggil metode untuk menyimpan data
-                ScannerService.save_data(json.loads(payload))
+                ScannerService.save_data(json.loads(payload), id_gudang)
             else:
                 print( "Error: Unexpected response structure")
 
@@ -82,10 +82,17 @@ class ScannerService:
     
     # Metode statis untuk menyimpan data hasil pemindaian
     @staticmethod
-    def save_data(data_scanner: json):
+    def save_data(data_scanner: json, id_gudang: str):
         # data_scanner = json.loads(ScannerService.scan_invoice(path))
         
         print(data_scanner)
+        
+        exist_supplier = SupplierService.get_all(db)
+        
+        for existing_supplier in exist_supplier:
+            if existing_supplier.nama == data_scanner["supplier"]["nama"]:
+                print(f"Supplier {existing_supplier.nama} already exists.")
+                return
         
         # Mengambil data supplier dari hasil pemindaian
         supp = data_scanner["supplier"]
@@ -97,7 +104,8 @@ class ScannerService:
         data_supplier = SupplierCreate(
             nama= supp["nama"],
             alamat=supp["alamat"],
-            telepon= telepon
+            telepon= telepon,
+            id_gudang=id_gudang
         )
         
         # print(data_supplier)
@@ -119,9 +127,9 @@ class ScannerService:
                 harga_beli=item["harga_beli"],
                 harga_jual=None,
                 id_kategori=None,
-                id_supplier=None,
-                id_gudang="GD1"
+                id_supplier=supplier.id,
+                id_gudang=id_gudang
             )
             
-            # BarangService.store(db, data_barang)
+            BarangService.store(db, data_barang)
             # print(data_barang)

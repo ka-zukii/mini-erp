@@ -25,12 +25,17 @@ class WarehouseSelection(QDialog):
             lambda: self.search_data_table(self.warehouseTableWidget, self.inputSearchWarehouse)
         )
         
+        self.data_gudang = GudangService.get_all(db)
+        
         self.load_data_warehouse()
     
     def get_selected_warehouse_id(self):
         return self.selected_warehouse_id
         
     def load_data_warehouse(self):
+        self.data_gudang = GudangService.get_all(db)
+        self.totalWarehouseCount.setText(str(len(self.data_gudang)))
+        
         # Menampilkan data gudang di tabel
         warehouse_tables = [
             {

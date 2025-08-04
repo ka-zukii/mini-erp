@@ -1,8 +1,8 @@
 """initial
 
-Revision ID: 15e02ccbd7e9
+Revision ID: 0a50e4718831
 Revises: 
-Create Date: 2025-07-31 19:46:46.291078
+Create Date: 2025-08-04 21:57:36.350252
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '15e02ccbd7e9'
+revision: str = '0a50e4718831'
 down_revision: Union[str, Sequence[str], None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -29,14 +29,6 @@ def upgrade() -> None:
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_gudang_id'), 'gudang', ['id'], unique=False)
-    op.create_table('supplier',
-    sa.Column('id', sa.String(), nullable=False),
-    sa.Column('nama', sa.String(), nullable=False),
-    sa.Column('telepon', sa.String(), nullable=False),
-    sa.Column('alamat', sa.String(), nullable=False),
-    sa.PrimaryKeyConstraint('id')
-    )
-    op.create_index(op.f('ix_supplier_id'), 'supplier', ['id'], unique=False)
     op.create_table('kategori',
     sa.Column('id', sa.String(), nullable=False),
     sa.Column('nama', sa.String(), nullable=False),
@@ -46,6 +38,16 @@ def upgrade() -> None:
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_kategori_id'), 'kategori', ['id'], unique=False)
+    op.create_table('supplier',
+    sa.Column('id', sa.String(), nullable=False),
+    sa.Column('nama', sa.String(), nullable=False),
+    sa.Column('telepon', sa.String(), nullable=False),
+    sa.Column('alamat', sa.String(), nullable=False),
+    sa.Column('id_gudang', sa.String(), nullable=False),
+    sa.ForeignKeyConstraint(['id_gudang'], ['gudang.id'], ondelete='CASCADE'),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_index(op.f('ix_supplier_id'), 'supplier', ['id'], unique=False)
     op.create_table('barang',
     sa.Column('id', sa.String(), nullable=False),
     sa.Column('kd_barang', sa.String(), nullable=False),
@@ -64,7 +66,7 @@ def upgrade() -> None:
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_barang_id'), 'barang', ['id'], unique=False)
-    op.create_index(op.f('ix_barang_kd_barang'), 'barang', ['kd_barang'], unique=False)
+    op.create_index(op.f('ix_barang_kd_barang'), 'barang', ['kd_barang'], unique=True)
     op.create_table('transaksi',
     sa.Column('id', sa.String(), nullable=False),
     sa.Column('tanggal', sa.Date(), nullable=False),
@@ -89,10 +91,10 @@ def downgrade() -> None:
     op.drop_index(op.f('ix_barang_kd_barang'), table_name='barang')
     op.drop_index(op.f('ix_barang_id'), table_name='barang')
     op.drop_table('barang')
-    op.drop_index(op.f('ix_kategori_id'), table_name='kategori')
-    op.drop_table('kategori')
     op.drop_index(op.f('ix_supplier_id'), table_name='supplier')
     op.drop_table('supplier')
+    op.drop_index(op.f('ix_kategori_id'), table_name='kategori')
+    op.drop_table('kategori')
     op.drop_index(op.f('ix_gudang_id'), table_name='gudang')
     op.drop_table('gudang')
     # ### end Alembic commands ###

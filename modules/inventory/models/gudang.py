@@ -17,3 +17,4 @@ class Gudang(Base):
     barang_list = relationship("Barang", back_populates="gudang", cascade="all, delete")
     kategori_list = relationship("Kategori", back_populates="gudang", cascade="all, delete")
     transaksi_list = relationship("Transaksi", back_populates="gudang", cascade="all, delete")
+    supplier_list = relationship("Supplier", back_populates="gudang", cascade="all, delete")

@@ -13,19 +13,24 @@ from .warehouse_selection import WarehouseSelection
 import resources_rc
 # from .user_edit_dialog import UserEditDialog
 # from .history_edit_dialog import HistoryEditDialog
-# from modules.inventory.services.scanner_service import ScannerService
+from modules.inventory.services.scanner_service import ScannerService
 
 from database.db import db
-from modules.inventory.services.gudang_service import GudangService
+from modules.inventory.services.barang_service import BarangService
+from modules.inventory.services.kategori_service import KategoriService
+from modules.inventory.services.supplier_service import SupplierService
+from modules.inventory.services.transaksi_service import TransaksiService
 
 class MainWindow(QMainWindow):
-    def __init__(self, warehouse_id = None):
+    def __init__(self, warehouse_id):
         super(MainWindow, self).__init__()
         uic.loadUi("ui/minierp_cool.ui", self)
         
         # Side menu
         # Hide icon only sidebar when app start
         self.icon_only_widget.hide()
+        
+        print("MainWindow initialized with warehouse_id:", warehouse_id)
         
         # automatically open main page when app started
         self.stackedWidget.setCurrentIndex(0)
@@ -106,6 +111,13 @@ class MainWindow(QMainWindow):
         next_btn.setText(">")
         
         self.warehouse_id = warehouse_id
+        
+        # Getting Data
+        self.data_barang = BarangService.get_all(db)
+        self.data_kategori = KategoriService.get_all(db)
+        self.data_supplier = SupplierService.get_all(db)
+        self.data_transaksi = TransaksiService.get_all(db)
+        
         # load data dummy
         self.load_data(self.warehouse_id)
 
@@ -120,8 +132,9 @@ class MainWindow(QMainWindow):
             "",
             "All Files (*);;Text Files (*.txt);;Images (*.png *.jpg)"
         )
-        # if file_path:
-        #     ScannerService.scan_barang(file_path)
+        if file_path:
+            ScannerService.scan_invoice(file_path, self.warehouse_id)
+            self.load_data(self.warehouse_id)
 
     # Menampilkan data di setiap tabel
     def load_data(self, warehouse_id = None):
@@ -130,55 +143,59 @@ class MainWindow(QMainWindow):
             {
                 "table": self.stockTableWidget,
                 "headers": ["ID", "Kode Barang", "Nama Barang", "Satuan", "Harga Beli", "Harga Jual", "Stock", "Deskripsi", ""],
-                "data": data_dummy.dummy_stock
+                "fields": ["id", "kd_barang", "nama", "satuan", "harga_beli", "harga_jual", "stock", "deskripsi"],
+                "data": self.data_barang,
+                "filter_by_warehouse": True
             },
             {
                 "table": self.supplierTableWidget,
-                "headers": ["ID", "Kode Barang", "Nama", "Telepon", "Alamat", ""],
-                "data": data_dummy.dummy_supplier
+                "headers": ["ID", "Nama", "Telepon", "Alamat", ""],
+                "fields": ["id", "nama", "telepon", "alamat"],
+                "data": self.data_supplier,
+                "filter_by_warehouse": True
             },
             {
                 "table": self.transactionTableWidget,
-                "headers": ["ID", "Kode Barang", "Kode Gudang", "Tanggal", "Jenis", "Jumlah", "Keterangan", ""],
-                "data": data_dummy.dummy_transaction
+                "headers": ["ID", "Kode Barang", "Nama Barang", "Tanggal", "Jenis", "Jumlah", "Keterangan", ""],
+                "fields": ["id", "kd_barang", "nama_barang", "tanggal", "jenis", "jumlah", "keterangan"],
+                "data": self.data_transaksi,
+                "filter_by_warehouse": True
             },
             {
                 "table": self.categoryTableWidget,
-                "headers": ["ID", "Kode Gudang", "Nama", "Deskripsi", ""],
-                "data": data_dummy.dummy_category
-            },
-            {
-                "table": self.warehouseTableWidget,
-                "headers": ["ID", "Nama Warehouse", "Keterangan", "Lokasi", ""],
-                "data": {"all": GudangService.get_all(db)}
+                "headers": ["ID", "Nama", "Deskripsi", ""],
+                "fields": ["id", "nama", "deskripsi"],
+                "data": self.data_kategori,
+                "filter_by_warehouse": True
             },
         ]
-        
+
         for info in tables:
             table = info["table"]
             headers = info["headers"]
             data_dict = info["data"]
             
-            if warehouse_id is not None:
-                filtered_data = data_dict.get(warehouse_id, [])
-            else:
-                filtered_data = []
-                for d in data_dict.values():
-                    filtered_data.extend(d)
-            
-            # row_count = len(data)
-            # column_count = len(headers)
-            
-            table.setRowCount(len(filtered_data))
-            table.setColumnCount(len(headers))
-            table.setHorizontalHeaderLabels(headers)
-            
-            self.adjust_table_columns(table, len(headers) - 1)
+            filter_by_warehouse = info.get("filter_by_warehouse", False)
 
-            for row_num, row_data in enumerate(filtered_data):
-                for col_num, cell_data in enumerate(row_data):
-                    item = QTableWidgetItem(str(cell_data))
-                    table.setItem(row_num, col_num, item)
+            if warehouse_id and filter_by_warehouse:
+                filtered = [item for item in data_dict if getattr(item, "id_gudang", None) == warehouse_id]
+            else:
+                filtered = data_dict
+            
+            table.setRowCount(len(filtered))
+            table.setColumnCount(len(headers))
+            table.setHorizontalHeaderLabels(headers + [""])
+            
+            self.adjust_table_columns(table, len(headers))
+            
+            # print(f"Loading data into {table.objectName()} with {len(filtered)} rows")
+            # print(f"Data: {data_dict}")
+            
+            for row_num, item in enumerate(filtered):
+                fields = info["fields"]
+                for col_num, field in enumerate(fields):
+                    value = getattr(item, field, "")
+                    table.setItem(row_num, col_num, QTableWidgetItem(str(value)))
                     
                 self.add_action_buttons(table, row_num)
                 

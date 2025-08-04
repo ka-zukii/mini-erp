@@ -12,6 +12,10 @@ class Supplier(Base):
     nama = Column(String, nullable=False)
     telepon = Column(String, nullable=False)
     alamat = Column(String, nullable=False)
+    id_gudang = Column(String, ForeignKey("gudang.id", ondelete="CASCADE"), nullable=False)
+    
+    # Relasi dengan model Gudang sebagai child
+    gudang = relationship("Gudang", back_populates="supplier_list")
     
     # Relasi dengan model Barang sebagai parent
     barang_list = relationship("Barang", back_populates='supplier', cascade="all, delete")
