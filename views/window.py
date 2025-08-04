@@ -1,13 +1,25 @@
-from PyQt5.QtWidgets import QMainWindow, QTableWidgetItem, QToolButton, QFileDialog, QWidget, QHBoxLayout, QPushButton, QHeaderView
+from PyQt5.QtWidgets import QMainWindow, QTableWidgetItem, QToolButton, QFileDialog, QWidget, QHBoxLayout, QPushButton, QHeaderView, QTableWidget, QLineEdit
 from PyQt5 import uic
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt, QSize
 import data_dummy
+from .stock_edit_dialog import StockEditDialog
+from .supplier_edit_dialog import SupplierEditDialog
+from .transaction_edit_dialog import TransactionEditDialog
+from .category_edit_dialog import CategoryEditDialog
+from .warehouse_edit_dialog import WarehouseEditDialog
+from .delete_data_dialog import DeleteDataDialog
+from .warehouse_selection import WarehouseSelection
+import resources_rc
+# from .user_edit_dialog import UserEditDialog
+# from .history_edit_dialog import HistoryEditDialog
+# from modules.inventory.services.scanner_service import ScannerService
 
-from modules.inventory.services.scanner_service import ScannerService
+from database.db import db
+from modules.inventory.services.gudang_service import GudangService
 
 class MainWindow(QMainWindow):
-    def __init__(self):
+    def __init__(self, warehouse_id = None):
         super(MainWindow, self).__init__()
         uic.loadUi("ui/minierp_cool.ui", self)
         
@@ -15,12 +27,17 @@ class MainWindow(QMainWindow):
         # Hide icon only sidebar when app start
         self.icon_only_widget.hide()
         
+        # automatically open main page when app started
+        self.stackedWidget.setCurrentIndex(0)
+        
+        self.overviewBtn1.setChecked(True)
+        self.overviewBtn2.setChecked(True)
+        
         # Connect hamburgerButton clicked
         self.hamburgerBtn1.clicked.connect(self.toggleSidebar)
         self.hamburgerBtn2.clicked.connect(self.toggleSidebar)
 
         # Switch Page
-        
         # Switch to overview
         self.overviewBtn1.clicked.connect(lambda: self.switch_page(0))
         self.overviewBtn2.clicked.connect(lambda: self.switch_page(0))
@@ -41,17 +58,43 @@ class MainWindow(QMainWindow):
         self.categoryBtn1.clicked.connect(lambda: self.switch_page(4))
         self.categoryBtn2.clicked.connect(lambda: self.switch_page(4))
         
-        # Switch to warehouse
-        self.warehouseBtn1.clicked.connect(lambda: self.switch_page(5))
-        self.warehouseBtn2.clicked.connect(lambda: self.switch_page(5))
+        # Back to select warehouse dialog
+        self.warehouseBtn1.clicked.connect(self.return_select_warehouse)
+        self.warehouseBtn2.clicked.connect(self.return_select_warehouse)
         
-        # Switch to user
-        self.userBtn1.clicked.connect(lambda: self.switch_page(6))
-        self.userBtn2.clicked.connect(lambda: self.switch_page(6))
+        # Searchbar
+        self.searchBtnStock.clicked.connect(
+            lambda: self.search_data_table(self.stockTableWidget, self.inputSearchStock)
+        )
         
-        # Swtich to history
-        self.historyBtn1.clicked.connect(lambda: self.switch_page(7))
-        self.historyBtn2.clicked.connect(lambda: self.switch_page(7))
+        self.searchBtnSupplier.clicked.connect(
+            lambda: self.search_data_table(self.supplierTableWidget, self.inputSearchSupplier)
+        )
+        
+        self.searchBtnTransaction.clicked.connect(
+            lambda: self.search_data_table(self.transactionTableWidget, self.inputSearchTransaction)
+        )
+        
+        self.searchBtnCategory.clicked.connect(
+            lambda: self.search_data_table(self.categoryTableWidget, self.inputSearchCategory)
+        )
+        
+        # automatically search data table without pressing the search button
+        self.inputSearchStock.textChanged.connect(
+            lambda: self.search_data_table(self.stockTableWidget, self.inputSearchStock)
+        )
+        
+        self.inputSearchSupplier.textChanged.connect(
+            lambda: self.search_data_table(self.supplierTableWidget, self.inputSearchSupplier)
+        )
+        
+        self.inputSearchTransaction.textChanged.connect(
+            lambda: self.search_data_table(self.transactionTableWidget, self.inputSearchTransaction)
+        )
+        
+        self.inputSearchCategory.textChanged.connect(
+            lambda: self.search_data_table(self.categoryTableWidget, self.inputSearchCategory)
+        )
         
         # Choose file
         self.chooseFileBtn.clicked.connect(self.open_file)
@@ -62,11 +105,9 @@ class MainWindow(QMainWindow):
         prev_btn.setText("<")
         next_btn.setText(">")
         
-        # Make vertical header table hidden
-        # self.stockTableWidget.verticalHeader().setVisible(False)
-        
+        self.warehouse_id = warehouse_id
         # load data dummy
-        self.load_data()
+        self.load_data(self.warehouse_id)
 
     def switch_page(self, index):
         self.stackedWidget.setCurrentIndex(index)
@@ -79,43 +120,111 @@ class MainWindow(QMainWindow):
             "",
             "All Files (*);;Text Files (*.txt);;Images (*.png *.jpg)"
         )
-        if file_path:
-            ScannerService.scan_barang(file_path)
+        # if file_path:
+        #     ScannerService.scan_barang(file_path)
 
-    # Function for load dummy data from data_dummy.py
-    def load_data(self):
-        data = data_dummy.dummy_data
-
-        row_count = len(data)
-        column_count = len(data[0]) + 1  # Tambah 1 kolom Action
-
-        self.stockTableWidget.setRowCount(row_count)
-        self.stockTableWidget.setColumnCount(column_count)
-
-        headers = ["ID", "Kode Barang", "Nama Barang", "Deskripsi",
-                "Satuan", "Harga Beli", "Harga Jual", "Stock", ""]
-        self.stockTableWidget.setHorizontalHeaderLabels(headers)
-
-        for row_num, row_data in enumerate(data):
-            for col_num, cell_data in enumerate(row_data):
-                item = QTableWidgetItem(str(cell_data))
-                self.stockTableWidget.setItem(row_num, col_num, item)
-                
-            self.add_crud_buttons(self.stockTableWidget, row_num)
-            # self.add_crud_buttons(self.supplierTableWidget, row_num)
-            # self.add_crud_buttons(self.transactionTableWidget, row_num)
-            # self.add_crud_buttons(self.categoryTableWidget, row_num)
-            # self.add_crud_buttons(self.warehouseTableWidget, row_num)
-            # self.add_crud_buttons(self.userTableWidget, row_num)
+    # Menampilkan data di setiap tabel
+    def load_data(self, warehouse_id = None):
+        
+        tables = [
+            {
+                "table": self.stockTableWidget,
+                "headers": ["ID", "Kode Barang", "Nama Barang", "Satuan", "Harga Beli", "Harga Jual", "Stock", "Deskripsi", ""],
+                "data": data_dummy.dummy_stock
+            },
+            {
+                "table": self.supplierTableWidget,
+                "headers": ["ID", "Kode Barang", "Nama", "Telepon", "Alamat", ""],
+                "data": data_dummy.dummy_supplier
+            },
+            {
+                "table": self.transactionTableWidget,
+                "headers": ["ID", "Kode Barang", "Kode Gudang", "Tanggal", "Jenis", "Jumlah", "Keterangan", ""],
+                "data": data_dummy.dummy_transaction
+            },
+            {
+                "table": self.categoryTableWidget,
+                "headers": ["ID", "Kode Gudang", "Nama", "Deskripsi", ""],
+                "data": data_dummy.dummy_category
+            },
+            {
+                "table": self.warehouseTableWidget,
+                "headers": ["ID", "Nama Warehouse", "Keterangan", "Lokasi", ""],
+                "data": {"all": GudangService.get_all(db)}
+            },
+        ]
+        
+        for info in tables:
+            table = info["table"]
+            headers = info["headers"]
+            data_dict = info["data"]
             
-    def add_crud_buttons(self, table, row):
+            if warehouse_id is not None:
+                filtered_data = data_dict.get(warehouse_id, [])
+            else:
+                filtered_data = []
+                for d in data_dict.values():
+                    filtered_data.extend(d)
+            
+            # row_count = len(data)
+            # column_count = len(headers)
+            
+            table.setRowCount(len(filtered_data))
+            table.setColumnCount(len(headers))
+            table.setHorizontalHeaderLabels(headers)
+            
+            self.adjust_table_columns(table, len(headers) - 1)
+
+            for row_num, row_data in enumerate(filtered_data):
+                for col_num, cell_data in enumerate(row_data):
+                    item = QTableWidgetItem(str(cell_data))
+                    table.setItem(row_num, col_num, item)
+                    
+                self.add_action_buttons(table, row_num)
+                
+    def return_select_warehouse(self):
+        self.close()
+        
+        self.warehouse_selection = WarehouseSelection()
+        self.warehouse_selection.exec_()
+        
+        try:
+            selected_warehouse_id = self.warehouse_selection.get_selected_warehouse_id()
+            self.__init__(warehouse_id=selected_warehouse_id)  # reinit ulang MainWindow
+            self.show()
+        except AttributeError:
+            pass  # tidak memilih gudang
+                
+    def search_data_table(self, table: QTableWidget, input_search: QLineEdit):
+        query = input_search.text().lower()
+        
+        for row in range(table.rowCount()):
+            match = False
+            for column in range(table.columnCount() - 1): # to skip last col (action button "edit" and "delete")
+                item = table.item(row, column)
+                if item and query in item.text().lower():
+                    match = True
+                    break
+            table.setRowHidden(row, not match)
+                
+    def adjust_table_columns(self, table, action_column_index):
+        header = table.horizontalHeader()
+        header.setStretchLastSection(False)
+        for col in range(table.columnCount()):
+            if col == action_column_index:
+                header.setSectionResizeMode(col, QHeaderView.ResizeToContents)
+            else:
+                header.setSectionResizeMode(col, QHeaderView.Stretch)
+            
+    def add_action_buttons(self, table, row):
         widget = QWidget()
         widget.setStyleSheet("background: transparent;")
         layout = QHBoxLayout()
         layout.setContentsMargins(0, 0, 0, 0)
-        layout.setSpacing(50)
+        layout.setSpacing(30)
         layout.setAlignment(Qt.AlignCenter)
 
+        # Edit Button
         btn_edit = QPushButton()
         btn_edit.setIcon(QIcon(":/icons/edit-blue.svg"))
         btn_edit.setIconSize(QSize(16, 16))
@@ -131,8 +240,8 @@ class MainWindow(QMainWindow):
                     background-color: #D9D9D9;
                 }
             """)
-        btn_edit.clicked.connect(lambda _, r=row, t=table: self.edit_row(t, r))
-
+        
+        # Delete Button
         btn_delete = QPushButton()
         btn_delete.setIcon(QIcon(":/icons/delete-blue.svg"))
         btn_delete.setIconSize(QSize(16, 16))
@@ -148,7 +257,9 @@ class MainWindow(QMainWindow):
                     background-color: #D9D9D9;
                 }
             """)
-        btn_delete.clicked.connect(lambda _, r=row, t=table: self.delete_row(t, r))
+        
+        btn_edit.clicked.connect(lambda _, b=btn_edit: self.edit_row(table, b))
+        btn_delete.clicked.connect(lambda _, b=btn_delete: self.delete_row(table, b))
 
         layout.addWidget(btn_edit)
         layout.addWidget(btn_delete)
@@ -156,7 +267,7 @@ class MainWindow(QMainWindow):
 
         col_index = table.columnCount() - 1
 
-        # Tambahkan widget ke cell
+        # add widget to cell
         table.setCellWidget(row, col_index, widget)
 
         # Biar cell Action tidak bisa di-select
@@ -168,11 +279,33 @@ class MainWindow(QMainWindow):
         header = table.horizontalHeader()
         header.setSectionResizeMode(col_index, QHeaderView.ResizeToContents)
         
-    def edit_row(self, table, row):
-        print(f"Edit row {row} di tabel: {table.objectName()}")
+    def edit_row(self, table, button):
+        index = table.indexAt(button.parent().pos())
+        row = index.row()
+        table_name = table.objectName()
+        
+        if table_name == "stockTableWidget":
+            dialog = StockEditDialog(table, row)
+        elif table_name == "supplierTableWidget":
+            dialog = SupplierEditDialog(table, row)
+        elif table_name == "transactionTableWidget":
+            dialog = TransactionEditDialog(table, row)
+        elif table_name == "categoryTableWidget":
+            dialog = CategoryEditDialog(table, row)
+        elif table_name == "warehouseTableWidget":
+            dialog = WarehouseEditDialog(table, row)
+        else:
+            print(f"Table {table} not found")
+        
+        dialog.exec_()
 
-    def delete_row(self, table, row):
-        print(f"Delete row {row} di tabel: {table.objectName()}")
+    def delete_row(self, table, button):
+        # find real-time row
+        index = table.indexAt(button.parent().pos())
+        row = index.row()
+        
+        dialog = DeleteDataDialog(table, row)
+        dialog.exec_()
 
     def toggleSidebar(self):
         if self.icon_text_widget.isVisible():
