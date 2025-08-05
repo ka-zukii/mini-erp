@@ -20,7 +20,7 @@
    <string>Mini-ERP</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout_13">
+   <layout class="QGridLayout" name="gridLayout_6">
     <item row="0" column="0">
      <widget class="QWidget" name="icon_only_widget" native="true">
       <property name="styleSheet">
@@ -1171,7 +1171,7 @@ QPushButton:hover{
           </sizepolicy>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="page">
           <widget class="QPushButton" name="chooseFileBtn">
@@ -1521,9 +1521,9 @@ QCalendarWidget QToolButton#qt_calendar_nextmonth {
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <layout class="QGridLayout" name="gridLayout_15">
+          <layout class="QGridLayout" name="gridLayout_11">
            <item row="0" column="0">
-            <layout class="QGridLayout" name="gridLayout_8">
+            <layout class="QGridLayout" name="gridLayout_7">
              <property name="verticalSpacing">
               <number>50</number>
              </property>
@@ -1967,189 +1967,8 @@ QCalendarWidget QToolButton#qt_calendar_nextmonth {
                <property name="verticalSpacing">
                 <number>18</number>
                </property>
-               <item row="1" column="0">
-                <widget class="QTableWidget" name="stockTableWidget">
-                 <property name="styleSheet">
-                  <string notr="true">QTableWidget {
-    border: none;
-    gridline-color: transparent;
-    background: #ffffff;
-    color: #000000;
-    font-size: 13px;
-    selection-background-color: #3D6CEE;
-    selection-color: #ffffff;
-}
-
-QHeaderView::section {
-    background-color: #f5f5f5;
-    color: #000000;
-    font-weight: bold;
-    border: none;
-    padding: 8px;
-}
-
-QTableWidget::item {
-    border: none;
-}
-
-QTableWidget::item:hover {
-    background-color: #f0f8ff;
-}
-
-QTableWidget::item:selected {
-    background-color: #3D6CEE;
-    color: #ffffff;
-}
-
-QTableWidget QTableCornerButton::section {
-    background: #f5f5f5;
-    border: none;
-}
-
-/*Scroll Bar Style Coy*/
-
-/*Horizontal*/
-QScrollBar:horizontal {
-    background: #f0f0f0;
-    height: 8px;
-    margin: 0px;
-    border: none;
-    border-radius: 4px;
-}
-
-QScrollBar::handle:horizontal {
-    background: #3D6CEE;
-    min-width: 40px;
-    border-radius: 4px;
-}
-
-QScrollBar::sub-line:horizontal {
-    background: none;
-    width: 0px;
-}
-
-QScrollBar::add-line:horizontal {
-    background: none;
-    width: 0px;
-}
-
-QScrollBar::handle:horizontal:hover {
-    background: #2b50b3;
-}
-
-QScrollBar::groove:horizontal {
-    background: #e0e0e0;
-    border-radius: 4px;
-    height: 8px;
-}
-
-QScrollBar::corner {
-    background: #f0f0f0;
-}
-
-/*Vertikal*/
-
-QScrollBar:vertical {
-    background: #f0f0f0;
-    width: 8px;
-    margin: 0px;
-    border: none;
-    border-radius: 4px;
-}
-
-QScrollBar::handle:vertical {
-    background: #3D6CEE;
-    min-height: 40px;
-    border-radius: 4px;
-}
-
-QScrollBar::add-line:vertical,
-QScrollBar::sub-line:vertical {
-    background: none;
-    height: 0px;
-}
-
-QScrollBar::handle:vertical:hover {
-    background: #2b50b3;
-}
-
-QScrollBar::groove:vertical {
-    background: #e0e0e0;
-    border-radius: 4px;
-    width: 8px;
-}
-</string>
-                 </property>
-                 <property name="frameShape">
-                  <enum>QFrame::NoFrame</enum>
-                 </property>
-                 <property name="alternatingRowColors">
-                  <bool>true</bool>
-                 </property>
-                 <property name="rowCount">
-                  <number>5</number>
-                 </property>
-                 <attribute name="horizontalHeaderVisible">
-                  <bool>false</bool>
-                 </attribute>
-                 <attribute name="horizontalHeaderCascadingSectionResizes">
-                  <bool>false</bool>
-                 </attribute>
-                 <attribute name="horizontalHeaderStretchLastSection">
-                  <bool>true</bool>
-                 </attribute>
-                 <attribute name="verticalHeaderVisible">
-                  <bool>false</bool>
-                 </attribute>
-                 <row/>
-                 <row/>
-                 <row/>
-                 <row/>
-                 <row/>
-                 <column>
-                  <property name="text">
-                   <string>ID</string>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
-                   <string>Kode Barang</string>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
-                   <string>Nama Barang</string>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
-                   <string>Satuan</string>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
-                   <string>Harga Beli</string>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
-                   <string>Harga Jual</string>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
-                   <string>Stock</string>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
-                   <string>Deskripsi</string>
-                  </property>
-                 </column>
-                </widget>
-               </item>
                <item row="0" column="0">
-                <layout class="QHBoxLayout" name="horizontalLayout_10">
+                <layout class="QHBoxLayout" name="horizontalLayout_7">
                  <item>
                   <layout class="QHBoxLayout" name="horizontalLayout_2">
                    <property name="spacing">
@@ -2235,17 +2054,61 @@ QLineEdit:focus{
                    </property>
                    <property name="sizeHint" stdset="0">
                     <size>
-                     <width>228</width>
+                     <width>58</width>
                      <height>20</height>
                     </size>
                    </property>
                   </spacer>
                  </item>
                  <item>
-                  <layout class="QHBoxLayout" name="horizontalLayout_9">
+                  <layout class="QHBoxLayout" name="horizontalLayout_6">
                    <property name="spacing">
-                    <number>18</number>
+                    <number>12</number>
                    </property>
+                   <item>
+                    <widget class="QPushButton" name="addStockBtn">
+                     <property name="minimumSize">
+                      <size>
+                       <width>120</width>
+                       <height>30</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>120</width>
+                       <height>30</height>
+                      </size>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Poppins</family>
+                       <pointsize>8</pointsize>
+                       <weight>75</weight>
+                       <bold>true</bold>
+                      </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">QPushButton{
+	background-color: white;
+	border: 1px solid #D9D9D9;
+	border-radius: 6px;
+}
+
+QPushButton:hover{
+	color: white;
+	background-color: #D9D9D9;
+	border: 1px solid #3D6CEE;
+}</string>
+                     </property>
+                     <property name="text">
+                      <string>Add Stock</string>
+                     </property>
+                     <property name="icon">
+                      <iconset resource="../assets/icons/resources.qrc">
+                       <normaloff>:/icons/add-blue.svg</normaloff>:/icons/add-blue.svg</iconset>
+                     </property>
+                    </widget>
+                   </item>
                    <item>
                     <widget class="QComboBox" name="comboBox">
                      <property name="minimumSize">
@@ -2476,6 +2339,187 @@ QComboBox QAbstractItemView {
                  </item>
                 </layout>
                </item>
+               <item row="1" column="0">
+                <widget class="QTableWidget" name="stockTableWidget">
+                 <property name="styleSheet">
+                  <string notr="true">QTableWidget {
+    border: none;
+    gridline-color: transparent;
+    background: #ffffff;
+    color: #000000;
+    font-size: 13px;
+    selection-background-color: #3D6CEE;
+    selection-color: #ffffff;
+}
+
+QHeaderView::section {
+    background-color: #f5f5f5;
+    color: #000000;
+    font-weight: bold;
+    border: none;
+    padding: 8px;
+}
+
+QTableWidget::item {
+    border: none;
+}
+
+QTableWidget::item:hover {
+    background-color: #f0f8ff;
+}
+
+QTableWidget::item:selected {
+    background-color: #3D6CEE;
+    color: #ffffff;
+}
+
+QTableWidget QTableCornerButton::section {
+    background: #f5f5f5;
+    border: none;
+}
+
+/*Scroll Bar Style Coy*/
+
+/*Horizontal*/
+QScrollBar:horizontal {
+    background: #f0f0f0;
+    height: 8px;
+    margin: 0px;
+    border: none;
+    border-radius: 4px;
+}
+
+QScrollBar::handle:horizontal {
+    background: #3D6CEE;
+    min-width: 40px;
+    border-radius: 4px;
+}
+
+QScrollBar::sub-line:horizontal {
+    background: none;
+    width: 0px;
+}
+
+QScrollBar::add-line:horizontal {
+    background: none;
+    width: 0px;
+}
+
+QScrollBar::handle:horizontal:hover {
+    background: #2b50b3;
+}
+
+QScrollBar::groove:horizontal {
+    background: #e0e0e0;
+    border-radius: 4px;
+    height: 8px;
+}
+
+QScrollBar::corner {
+    background: #f0f0f0;
+}
+
+/*Vertikal*/
+
+QScrollBar:vertical {
+    background: #f0f0f0;
+    width: 8px;
+    margin: 0px;
+    border: none;
+    border-radius: 4px;
+}
+
+QScrollBar::handle:vertical {
+    background: #3D6CEE;
+    min-height: 40px;
+    border-radius: 4px;
+}
+
+QScrollBar::add-line:vertical,
+QScrollBar::sub-line:vertical {
+    background: none;
+    height: 0px;
+}
+
+QScrollBar::handle:vertical:hover {
+    background: #2b50b3;
+}
+
+QScrollBar::groove:vertical {
+    background: #e0e0e0;
+    border-radius: 4px;
+    width: 8px;
+}
+</string>
+                 </property>
+                 <property name="frameShape">
+                  <enum>QFrame::NoFrame</enum>
+                 </property>
+                 <property name="alternatingRowColors">
+                  <bool>true</bool>
+                 </property>
+                 <property name="rowCount">
+                  <number>5</number>
+                 </property>
+                 <attribute name="horizontalHeaderVisible">
+                  <bool>true</bool>
+                 </attribute>
+                 <attribute name="horizontalHeaderCascadingSectionResizes">
+                  <bool>false</bool>
+                 </attribute>
+                 <attribute name="horizontalHeaderStretchLastSection">
+                  <bool>true</bool>
+                 </attribute>
+                 <attribute name="verticalHeaderVisible">
+                  <bool>false</bool>
+                 </attribute>
+                 <row/>
+                 <row/>
+                 <row/>
+                 <row/>
+                 <row/>
+                 <column>
+                  <property name="text">
+                   <string>ID</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>Kode Barang</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>Nama Barang</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>Satuan</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>Harga Beli</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>Harga Jual</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>Stock</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>Deskripsi</string>
+                  </property>
+                 </column>
+                </widget>
+               </item>
               </layout>
              </item>
             </layout>
@@ -2483,9 +2527,9 @@ QComboBox QAbstractItemView {
           </layout>
          </widget>
          <widget class="QWidget" name="page_3">
-          <layout class="QGridLayout" name="gridLayout_16">
+          <layout class="QGridLayout" name="gridLayout_13">
            <item row="0" column="0">
-            <layout class="QGridLayout" name="gridLayout_9">
+            <layout class="QGridLayout" name="gridLayout_8">
              <property name="verticalSpacing">
               <number>50</number>
              </property>
@@ -2930,9 +2974,9 @@ QComboBox QAbstractItemView {
                 <number>18</number>
                </property>
                <item row="0" column="0">
-                <layout class="QHBoxLayout" name="horizontalLayout_11">
+                <layout class="QHBoxLayout" name="horizontalLayout_9">
                  <item>
-                  <layout class="QHBoxLayout" name="horizontalLayout_12">
+                  <layout class="QHBoxLayout" name="horizontalLayout_10">
                    <property name="spacing">
                     <number>2</number>
                    </property>
@@ -3016,19 +3060,63 @@ QLineEdit:focus{
                    </property>
                    <property name="sizeHint" stdset="0">
                     <size>
-                     <width>228</width>
+                     <width>58</width>
                      <height>20</height>
                     </size>
                    </property>
                   </spacer>
                  </item>
                  <item>
-                  <layout class="QHBoxLayout" name="horizontalLayout_13">
+                  <layout class="QHBoxLayout" name="horizontalLayout_11">
                    <property name="spacing">
-                    <number>18</number>
+                    <number>12</number>
                    </property>
                    <item>
-                    <widget class="QComboBox" name="comboBox_22">
+                    <widget class="QPushButton" name="addSupplierBtn">
+                     <property name="minimumSize">
+                      <size>
+                       <width>120</width>
+                       <height>30</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>120</width>
+                       <height>30</height>
+                      </size>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Poppins</family>
+                       <pointsize>8</pointsize>
+                       <weight>75</weight>
+                       <bold>true</bold>
+                      </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">QPushButton{
+	background-color: white;
+	border: 1px solid #D9D9D9;
+	border-radius: 6px;
+}
+
+QPushButton:hover{
+	color: white;
+	background-color: #D9D9D9;
+	border: 1px solid #3D6CEE;
+}</string>
+                     </property>
+                     <property name="text">
+                      <string>Add Supplier</string>
+                     </property>
+                     <property name="icon">
+                      <iconset resource="../assets/icons/resources.qrc">
+                       <normaloff>:/icons/add-blue.svg</normaloff>:/icons/add-blue.svg</iconset>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QComboBox" name="comboBox_13">
                      <property name="minimumSize">
                       <size>
                        <width>164</width>
@@ -3100,7 +3188,7 @@ QComboBox QAbstractItemView {
                     </widget>
                    </item>
                    <item>
-                    <widget class="QComboBox" name="comboBox_23">
+                    <widget class="QComboBox" name="comboBox_14">
                      <property name="minimumSize">
                       <size>
                        <width>164</width>
@@ -3182,7 +3270,7 @@ QComboBox QAbstractItemView {
                     </widget>
                    </item>
                    <item>
-                    <widget class="QComboBox" name="comboBox_24">
+                    <widget class="QComboBox" name="comboBox_15">
                      <property name="minimumSize">
                       <size>
                        <width>164</width>
@@ -3420,9 +3508,9 @@ QScrollBar::groove:vertical {
           </layout>
          </widget>
          <widget class="QWidget" name="page_4">
-          <layout class="QGridLayout" name="gridLayout_17">
+          <layout class="QGridLayout" name="gridLayout_15">
            <item row="0" column="0">
-            <layout class="QGridLayout" name="gridLayout_10">
+            <layout class="QGridLayout" name="gridLayout_9">
              <property name="verticalSpacing">
               <number>50</number>
              </property>
@@ -3867,7 +3955,7 @@ QScrollBar::groove:vertical {
                 <number>18</number>
                </property>
                <item row="0" column="0">
-                <layout class="QHBoxLayout" name="horizontalLayout_14">
+                <layout class="QHBoxLayout" name="horizontalLayout_12">
                  <item>
                   <layout class="QHBoxLayout" name="horizontalLayout_3">
                    <property name="spacing">
@@ -3953,17 +4041,61 @@ QLineEdit:focus{
                    </property>
                    <property name="sizeHint" stdset="0">
                     <size>
-                     <width>228</width>
+                     <width>58</width>
                      <height>20</height>
                     </size>
                    </property>
                   </spacer>
                  </item>
                  <item>
-                  <layout class="QHBoxLayout" name="horizontalLayout_15">
+                  <layout class="QHBoxLayout" name="horizontalLayout_13">
                    <property name="spacing">
-                    <number>18</number>
+                    <number>12</number>
                    </property>
+                   <item>
+                    <widget class="QPushButton" name="addTransactionBtn">
+                     <property name="minimumSize">
+                      <size>
+                       <width>126</width>
+                       <height>30</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>126</width>
+                       <height>30</height>
+                      </size>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Poppins</family>
+                       <pointsize>8</pointsize>
+                       <weight>75</weight>
+                       <bold>true</bold>
+                      </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">QPushButton{
+	background-color: white;
+	border: 1px solid #D9D9D9;
+	border-radius: 6px;
+}
+
+QPushButton:hover{
+	color: white;
+	background-color: #D9D9D9;
+	border: 1px solid #3D6CEE;
+}</string>
+                     </property>
+                     <property name="text">
+                      <string>Add Transaction</string>
+                     </property>
+                     <property name="icon">
+                      <iconset resource="../assets/icons/resources.qrc">
+                       <normaloff>:/icons/add-blue.svg</normaloff>:/icons/add-blue.svg</iconset>
+                     </property>
+                    </widget>
+                   </item>
                    <item>
                     <widget class="QComboBox" name="comboBox_4">
                      <property name="minimumSize">
@@ -4370,9 +4502,9 @@ QScrollBar::groove:vertical {
           </layout>
          </widget>
          <widget class="QWidget" name="page_5">
-          <layout class="QGridLayout" name="gridLayout_18">
+          <layout class="QGridLayout" name="gridLayout_16">
            <item row="0" column="0">
-            <layout class="QGridLayout" name="gridLayout_11">
+            <layout class="QGridLayout" name="gridLayout_10">
              <property name="verticalSpacing">
               <number>50</number>
              </property>
@@ -4817,7 +4949,7 @@ QScrollBar::groove:vertical {
                 <number>18</number>
                </property>
                <item row="0" column="0">
-                <layout class="QHBoxLayout" name="horizontalLayout_16">
+                <layout class="QHBoxLayout" name="horizontalLayout_14">
                  <item>
                   <layout class="QHBoxLayout" name="horizontalLayout_4">
                    <property name="spacing">
@@ -4903,17 +5035,61 @@ QLineEdit:focus{
                    </property>
                    <property name="sizeHint" stdset="0">
                     <size>
-                     <width>228</width>
+                     <width>58</width>
                      <height>20</height>
                     </size>
                    </property>
                   </spacer>
                  </item>
                  <item>
-                  <layout class="QHBoxLayout" name="horizontalLayout_17">
+                  <layout class="QHBoxLayout" name="horizontalLayout_15">
                    <property name="spacing">
-                    <number>18</number>
+                    <number>12</number>
                    </property>
+                   <item>
+                    <widget class="QPushButton" name="addCategoryBtn">
+                     <property name="minimumSize">
+                      <size>
+                       <width>120</width>
+                       <height>30</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>120</width>
+                       <height>30</height>
+                      </size>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Poppins</family>
+                       <pointsize>8</pointsize>
+                       <weight>75</weight>
+                       <bold>true</bold>
+                      </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">QPushButton{
+	background-color: white;
+	border: 1px solid #D9D9D9;
+	border-radius: 6px;
+}
+
+QPushButton:hover{
+	color: white;
+	background-color: #D9D9D9;
+	border: 1px solid #3D6CEE;
+}</string>
+                     </property>
+                     <property name="text">
+                      <string>Add Category</string>
+                     </property>
+                     <property name="icon">
+                      <iconset resource="../assets/icons/resources.qrc">
+                       <normaloff>:/icons/add-blue.svg</normaloff>:/icons/add-blue.svg</iconset>
+                     </property>
+                    </widget>
+                   </item>
                    <item>
                     <widget class="QComboBox" name="comboBox_7">
                      <property name="minimumSize">

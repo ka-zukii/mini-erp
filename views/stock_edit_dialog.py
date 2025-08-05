@@ -3,6 +3,10 @@ from PyQt5 import uic
 from PyQt5.QtCore import Qt
 import resources_rc
 
+from database.db import db
+from modules.inventory.services import BarangService
+from modules.inventory.schemas import BarangUpdate
+
 class StockEditDialog(QDialog):
     def __init__(self, table, row):
         super(StockEditDialog, self).__init__()
@@ -11,7 +15,6 @@ class StockEditDialog(QDialog):
         self.table = table
         self.row = row
         
-        item_code = table.item(row, 1).text()
         item_name = table.item(row, 2).text()
         units_of_quantity = table.item(row, 3).text()
         purchase_price = table.item(row, 4).text()
@@ -19,7 +22,6 @@ class StockEditDialog(QDialog):
         stock = table.item(row, 6).text()
         description = table.item(row, 7).text()
         
-        self.editItemCode.setText(item_code)
         self.editItemName.setText(item_name)
         self.editUnitsOfQuantity.setText(units_of_quantity)
         self.editPurchasePrice.setText(purchase_price)
@@ -34,10 +36,19 @@ class StockEditDialog(QDialog):
         self.cancelBtn.clicked.connect(self.reject)
         
         self.closeBtn.clicked.connect(self.close)
-        
+    
+    @staticmethod
+    def _parse_rupiah(value: str) -> int:
+        if not value or str(value).strip().lower() == 'none':
+            return 0
+        try:
+            cleaned = value.replace("Rp", "").replace(".", "").strip()
+            return int(cleaned)
+        except ValueError:
+            return 0
+    
     def save_edited_data(self):
         # take data from input
-        item_code = self.editItemCode.text()
         item_name = self.editItemName.text()
         units_of_quantity = self.editUnitsOfQuantity.text()
         purchase_price = self.editPurchasePrice.text()
@@ -46,16 +57,19 @@ class StockEditDialog(QDialog):
         description = self.editDescription.text()
         
         # update the table data
-        self.table.setItem(self.row, 1, self.__new__item(item_code))
-        self.table.setItem(self.row, 2, self.__new__item(item_name))
-        self.table.setItem(self.row, 3, self.__new__item(units_of_quantity))
-        self.table.setItem(self.row, 4, self.__new__item(purchase_price))
-        self.table.setItem(self.row, 5, self.__new__item(selling_price))
-        self.table.setItem(self.row, 6, self.__new__item(stock))
-        self.table.setItem(self.row, 7, self.__new__item(description))
+        payload = BarangUpdate(
+            nama=item_name,
+            satuan=units_of_quantity,
+            harga_beli=self._parse_rupiah(purchase_price),
+            harga_jual=self._parse_rupiah(selling_price),
+            stock=int(stock),
+            deskripsi=description
+        )
+        
+        BarangService.update(db, self.table.item(self.row, 0).text(), payload)
         
         self.accept() # to close dialog
-     
+    
     # to always create a new QTableWidgetItem
     def __new__item(self, value):
         from PyQt5.QtWidgets import QTableWidgetItem

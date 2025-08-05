@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import QMainWindow, QTableWidgetItem, QToolButton, QFileDia
 from PyQt5 import uic
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt, QSize
+import resources_rc
 import data_dummy
 from .stock_edit_dialog import StockEditDialog
 from .supplier_edit_dialog import SupplierEditDialog
@@ -10,27 +11,25 @@ from .category_edit_dialog import CategoryEditDialog
 from .warehouse_edit_dialog import WarehouseEditDialog
 from .delete_data_dialog import DeleteDataDialog
 from .warehouse_selection import WarehouseSelection
-import resources_rc
+from .add_stock_dialog import AddStockDialog
+from .add_supplier_dialog import AddSupplierDialog
+from .add_transaction_dialog import AddTransactionDialog
+from .add_category_dialog import AddCategoryDialog
 # from .user_edit_dialog import UserEditDialog
 # from .history_edit_dialog import HistoryEditDialog
 from modules.inventory.services.scanner_service import ScannerService
 
 from database.db import db
-from modules.inventory.services.barang_service import BarangService
-from modules.inventory.services.kategori_service import KategoriService
-from modules.inventory.services.supplier_service import SupplierService
-from modules.inventory.services.transaksi_service import TransaksiService
+from modules.inventory.services import BarangService, KategoriService, SupplierService, TransaksiService
 
 class MainWindow(QMainWindow):
-    def __init__(self, warehouse_id):
+    def __init__(self, warehouse_id = None):
         super(MainWindow, self).__init__()
         uic.loadUi("ui/minierp_cool.ui", self)
         
         # Side menu
         # Hide icon only sidebar when app start
         self.icon_only_widget.hide()
-        
-        print("MainWindow initialized with warehouse_id:", warehouse_id)
         
         # automatically open main page when app started
         self.stackedWidget.setCurrentIndex(0)
@@ -66,6 +65,11 @@ class MainWindow(QMainWindow):
         # Back to select warehouse dialog
         self.warehouseBtn1.clicked.connect(self.return_select_warehouse)
         self.warehouseBtn2.clicked.connect(self.return_select_warehouse)
+        
+        self.addStockBtn.clicked.connect(self.add_data)
+        self.addSupplierBtn.clicked.connect(self.add_data)
+        self.addTransactionBtn.clicked.connect(self.add_data)
+        self.addCategoryBtn.clicked.connect(self.add_data)
         
         # Searchbar
         self.searchBtnStock.clicked.connect(
@@ -112,7 +116,7 @@ class MainWindow(QMainWindow):
         
         self.warehouse_id = warehouse_id
         
-        # Getting Data
+        # Data di dalam gudang
         self.data_barang = BarangService.get_all(db)
         self.data_kategori = KategoriService.get_all(db)
         self.data_supplier = SupplierService.get_all(db)
@@ -136,9 +140,12 @@ class MainWindow(QMainWindow):
             ScannerService.scan_invoice(file_path, self.warehouse_id)
             self.load_data(self.warehouse_id)
 
-    # Menampilkan data di setiap tabel
-    def load_data(self, warehouse_id = None):
-        
+    def load_data(self, warehouse_id=None):
+        self.data_barang = BarangService.get_all(db)
+        self.data_kategori = KategoriService.get_all(db)
+        self.data_supplier = SupplierService.get_all(db)
+        self.data_transaksi = TransaksiService.get_all(db)
+
         tables = [
             {
                 "table": self.stockTableWidget,
@@ -157,14 +164,14 @@ class MainWindow(QMainWindow):
             {
                 "table": self.transactionTableWidget,
                 "headers": ["ID", "Kode Barang", "Nama Barang", "Tanggal", "Jenis", "Jumlah", "Keterangan", ""],
-                "fields": ["id", "kd_barang", "nama_barang", "tanggal", "jenis", "jumlah", "keterangan"],
+                "fields": ["id", "barang.kd_barang", "barang.nama", "tanggal", "jenis", "jumlah", "keterangan"],
                 "data": self.data_transaksi,
                 "filter_by_warehouse": True
             },
             {
                 "table": self.categoryTableWidget,
-                "headers": ["ID", "Nama", "Deskripsi", ""],
-                "fields": ["id", "nama", "deskripsi"],
+                "headers": ["ID", "Nama", "Deskripsi", "Total Barang", ""],
+                "fields": ["id", "nama", "deskripsi", "barang_list|count"],
                 "data": self.data_kategori,
                 "filter_by_warehouse": True
             },
@@ -174,31 +181,48 @@ class MainWindow(QMainWindow):
             table = info["table"]
             headers = info["headers"]
             data_dict = info["data"]
-            
             filter_by_warehouse = info.get("filter_by_warehouse", False)
 
             if warehouse_id and filter_by_warehouse:
-                filtered = [item for item in data_dict if getattr(item, "id_gudang", None) == warehouse_id]
+                filtered_data = [item for item in data_dict if getattr(item, "id_gudang", None) == warehouse_id]
             else:
-                filtered = data_dict
-            
-            table.setRowCount(len(filtered))
+                filtered_data = data_dict
+
+            table.setRowCount(len(filtered_data))
             table.setColumnCount(len(headers))
             table.setHorizontalHeaderLabels(headers + [""])
-            
+
             self.adjust_table_columns(table, len(headers))
-            
-            # print(f"Loading data into {table.objectName()} with {len(filtered)} rows")
-            # print(f"Data: {data_dict}")
-            
-            for row_num, item in enumerate(filtered):
-                fields = info["fields"]
+
+            for row_num, item in enumerate(filtered_data):
+                fields = info.get("fields")
                 for col_num, field in enumerate(fields):
-                    value = getattr(item, field, "")
+                    # Deteksi apakah field mengandung operator seperti |count
+                    if "|" in field:
+                        base_field, op = field.split("|")
+                    else:
+                        base_field, op = field, None
+
+                    # Tangani relasi nested seperti barang.kd_barang
+                    if "." in base_field:
+                        value = item
+                        for attr in base_field.split("."):
+                            value = getattr(value, attr, None)
+                            if value is None:
+                                break
+                    else:
+                        value = getattr(item, base_field, None)
+
+                    # Jalankan operator khusus (misalnya count)
+                    if op == "count" and value is not None:
+                        value = len(value)
+                    elif value is None:
+                        value = ""
+
                     table.setItem(row_num, col_num, QTableWidgetItem(str(value)))
-                    
+
                 self.add_action_buttons(table, row_num)
-                
+    
     def return_select_warehouse(self):
         self.close()
         
@@ -296,6 +320,27 @@ class MainWindow(QMainWindow):
         header = table.horizontalHeader()
         header.setSectionResizeMode(col_index, QHeaderView.ResizeToContents)
         
+    def add_data(self):
+        current_index = self.stackedWidget.currentIndex()
+        current_page = self.stackedWidget.widget(current_index)
+        page_name = current_page.objectName()
+        
+        dialog_map = {
+            "page_2": lambda: AddStockDialog(self, warehouse_id=self.warehouse_id),
+            "page_3": lambda: AddSupplierDialog(self, warehouse_id=self.warehouse_id),
+            "page_4": lambda: AddTransactionDialog(self, warehouse_id=self.warehouse_id),
+            "page_5": lambda: AddCategoryDialog(self, warehouse_id=self.warehouse_id),
+        }
+        
+        dialog_class = dialog_map.get(page_name)
+        
+        if dialog_class:
+            dialog = dialog_class()
+            dialog.exec_()
+            self.load_data(self.warehouse_id)
+        else:
+            print(f"Tidak ada dialog untuk page: {page_name}")
+        
     def edit_row(self, table, button):
         index = table.indexAt(button.parent().pos())
         row = index.row()
@@ -309,20 +354,36 @@ class MainWindow(QMainWindow):
             dialog = TransactionEditDialog(table, row)
         elif table_name == "categoryTableWidget":
             dialog = CategoryEditDialog(table, row)
-        elif table_name == "warehouseTableWidget":
-            dialog = WarehouseEditDialog(table, row)
         else:
             print(f"Table {table} not found")
         
         dialog.exec_()
+        self.load_data(self.warehouse_id)
 
     def delete_row(self, table, button):
         # find real-time row
+        current_index = self.stackedWidget.currentIndex()
+        current_page = self.stackedWidget.widget(current_index)
+        page_name = current_page.objectName()
+        
         index = table.indexAt(button.parent().pos())
         row = index.row()
         
-        dialog = DeleteDataDialog(table, row)
-        dialog.exec_()
+        dialog_map = {
+            "page_2": lambda: DeleteDataDialog(table, row, "Barang"),
+            "page_3": lambda: DeleteDataDialog(table, row, "Supplier"),
+            "page_4": lambda: DeleteDataDialog(table, row, "Transaksi"),
+            "page_5": lambda: DeleteDataDialog(table, row, "Kategori"),
+        }
+        
+        dialog_class = dialog_map.get(page_name)
+        
+        if dialog_class:
+            dialog = dialog_class()
+            dialog.exec_()
+            self.load_data(self.warehouse_id)
+        
+        self.load_data(self.warehouse_id)
 
     def toggleSidebar(self):
         if self.icon_text_widget.isVisible():

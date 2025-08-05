@@ -3,6 +3,10 @@ from PyQt5 import uic
 from PyQt5.QtCore import Qt
 import resources_rc
 
+from database.db import db
+from modules.inventory.services import KategoriService
+from modules.inventory.schemas import KategoriUpdate
+
 class CategoryEditDialog(QDialog):
     def __init__(self, table, row):
         super(CategoryEditDialog, self).__init__()
@@ -11,11 +15,10 @@ class CategoryEditDialog(QDialog):
         self.table = table
         self.row = row
         
-        warehouse_code = table.item(row, 1).text()
-        category_name = table.item(row, 2).text()
-        description = table.item(row, 3).text()
+        self.id_kategori = table.item(row, 0).text()
+        category_name = table.item(row, 1).text()
+        description = table.item(row, 2).text()
         
-        self.editWarehouseCode.setText(warehouse_code)
         self.editCategoryName.setText(category_name)
         self.editDescription.setText(description)
         
@@ -27,14 +30,15 @@ class CategoryEditDialog(QDialog):
         self.closeBtn.clicked.connect(self.close)
         
     def save_edited_data(self):
-        warehouse_code = self.editWarehouseCode.text()
         category_name = self.editCategoryName.text()
         description = self.editDescription.text()
         
-        self.table.setItem(self.row, 1, self.__new__item(warehouse_code))
-        self.table.setItem(self.row, 2, self.__new__item(category_name))
-        self.table.setItem(self.row, 3, self.__new__item(description))
+        payload = KategoriUpdate(
+            nama=category_name,
+            deskripsi=description
+        )
         
+        KategoriService.update(db, self.id_kategori, payload)
         self.accept() # close dialog after saving
         
     def __new__item(self, value):

@@ -7,25 +7,19 @@
     <x>0</x>
     <y>0</y>
     <width>470</width>
-    <height>480</height>
+    <height>420</height>
    </rect>
-  </property>
-  <property name="sizePolicy">
-   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-    <horstretch>0</horstretch>
-    <verstretch>0</verstretch>
-   </sizepolicy>
   </property>
   <property name="minimumSize">
    <size>
     <width>470</width>
-    <height>480</height>
+    <height>420</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>470</width>
-    <height>480</height>
+    <height>420</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -38,170 +32,11 @@
 	border-radius: 10px;
 }</string>
   </property>
-  <widget class="QPushButton" name="closeBtn">
-   <property name="geometry">
-    <rect>
-     <x>430</x>
-     <y>5</y>
-     <width>35</width>
-     <height>35</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QPushButton{
-	border: none;
-}
-
-QPushButton:hover{
-	border-left: 1px solid #D9D9D9;
-	border-bottom: 1px solid #D9D9D9;
-	border-bottom-left-radius: 6px;
-}</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="icon">
-    <iconset resource="../assets/icons/resources.qrc">
-     <normaloff>:/icons/close-blue.svg</normaloff>:/icons/close-blue.svg</iconset>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>20</width>
-     <height>20</height>
-    </size>
-   </property>
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QWidget" name="layoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>20</y>
-     <width>233</width>
-     <height>42</height>
-    </rect>
-   </property>
-   <layout class="QHBoxLayout" name="horizontalLayout">
-    <property name="spacing">
-     <number>6</number>
-    </property>
-    <item>
-     <widget class="QLabel" name="label">
-      <property name="minimumSize">
-       <size>
-        <width>190</width>
-        <height>40</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>190</width>
-        <height>40</height>
-       </size>
-      </property>
-      <property name="font">
-       <font>
-        <family>Poppins</family>
-        <pointsize>15</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>Edit Supplier Data</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLabel" name="label_2">
-      <property name="minimumSize">
-       <size>
-        <width>35</width>
-        <height>35</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>35</width>
-        <height>35</height>
-       </size>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="pixmap">
-       <pixmap resource="../assets/icons/resources.qrc">:/icons/edit-blue.svg</pixmap>
-      </property>
-      <property name="scaledContents">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
   <widget class="QWidget" name="layoutWidget_2">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>150</y>
-     <width>432</width>
-     <height>61</height>
-    </rect>
-   </property>
-   <layout class="QVBoxLayout" name="verticalLayout">
-    <item>
-     <widget class="QLabel" name="label_3">
-      <property name="font">
-       <font>
-        <family>Poppins</family>
-        <pointsize>10</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>Nama Supplier</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLineEdit" name="editSupplierName">
-      <property name="minimumSize">
-       <size>
-        <width>430</width>
-        <height>30</height>
-       </size>
-      </property>
-      <property name="font">
-       <font>
-        <family>Poppins</family>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QLineEdit{
-	border: 1px solid #D9D9D9;
-	border-radius: 6px;
-	padding:0 10px 0 10px;
-}
-
-QLineEdit:focus{
-	border: 1px solid #3D6CEE;
-}</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QWidget" name="layoutWidget_3">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>220</y>
+     <y>80</y>
      <width>202</width>
      <height>61</height>
     </rect>
@@ -218,12 +53,12 @@ QLineEdit:focus{
        </font>
       </property>
       <property name="text">
-       <string>Telepon</string>
+       <string>Kode Barang</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QLineEdit" name="editPhoneNumber">
+     <widget class="QLineEdit" name="addItemCode">
       <property name="minimumSize">
        <size>
         <width>200</width>
@@ -252,13 +87,46 @@ QLineEdit:focus{
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="layoutWidget_4">
+  <widget class="QPushButton" name="addBtn">
+   <property name="geometry">
+    <rect>
+     <x>350</x>
+     <y>320</y>
+     <width>100</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Poppins</family>
+     <pointsize>10</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+	background-color: white;
+	border: 1px solid #D9D9D9;
+	border-radius: 6px;
+}
+
+QPushButton:hover{
+	color: #3D6CEE;
+	border: 1px solid #3D6CEE;
+}</string>
+   </property>
+   <property name="text">
+    <string>Add</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="layoutWidget_7">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>290</y>
+     <y>250</y>
      <width>432</width>
-     <height>122</height>
+     <height>61</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -273,16 +141,16 @@ QLineEdit:focus{
        </font>
       </property>
       <property name="text">
-       <string>Alamat</string>
+       <string>Keterangan</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QLineEdit" name="editAddress">
+     <widget class="QLineEdit" name="addDescription">
       <property name="minimumSize">
        <size>
         <width>430</width>
-        <height>91</height>
+        <height>30</height>
        </size>
       </property>
       <property name="font">
@@ -313,84 +181,18 @@ QLineEdit:focus{
     </item>
    </layout>
   </widget>
-  <widget class="QPushButton" name="cancelBtn">
+  <widget class="QWidget" name="layoutWidget_6">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>420</y>
-     <width>100</width>
-     <height>40</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Poppins</family>
-     <pointsize>10</pointsize>
-     <weight>75</weight>
-     <bold>true</bold>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QPushButton{
-	background-color: white;
-	border: 1px solid #D9D9D9;
-	border-radius: 6px;
-}
-
-QPushButton:hover{
-	color: #3D6CEE;
-	border: 1px solid #3D6CEE;
-}</string>
-   </property>
-   <property name="text">
-    <string>Cancel</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="saveBtn">
-   <property name="geometry">
-    <rect>
-     <x>350</x>
-     <y>420</y>
-     <width>100</width>
-     <height>40</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Poppins</family>
-     <pointsize>10</pointsize>
-     <weight>75</weight>
-     <bold>true</bold>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QPushButton{
-	background-color: white;
-	border: 1px solid #D9D9D9;
-	border-radius: 6px;
-}
-
-QPushButton:hover{
-	color: #3D6CEE;
-	border: 1px solid #3D6CEE;
-}</string>
-   </property>
-   <property name="text">
-    <string>Save</string>
-   </property>
-  </widget>
-  <widget class="QWidget" name="layoutWidget_5">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
+     <x>250</x>
      <y>80</y>
      <width>202</width>
      <height>61</height>
     </rect>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout_3">
+   <layout class="QVBoxLayout" name="verticalLayout_6">
     <item>
-     <widget class="QLabel" name="label_5">
+     <widget class="QLabel" name="label_8">
       <property name="font">
        <font>
         <family>Poppins</family>
@@ -400,12 +202,12 @@ QPushButton:hover{
        </font>
       </property>
       <property name="text">
-       <string>Kode Barang</string>
+       <string>Jumlah</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QLineEdit" name="editItemCode">
+     <widget class="QLineEdit" name="addAmount">
       <property name="minimumSize">
        <size>
         <width>200</width>
@@ -434,9 +236,260 @@ QLineEdit:focus{
     </item>
    </layout>
   </widget>
+  <widget class="QPushButton" name="closeBtn">
+   <property name="geometry">
+    <rect>
+     <x>430</x>
+     <y>5</y>
+     <width>35</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+	border: none;
+}
+
+QPushButton:hover{
+	border-left: 1px solid #D9D9D9;
+	border-bottom: 1px solid #D9D9D9;
+	border-bottom-left-radius: 6px;
+}</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>:/icons/close-blue.svg</normaloff>:/icons/close-blue.svg</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>20</width>
+     <height>20</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QWidget" name="layoutWidget_5">
+   <property name="geometry">
+    <rect>
+     <x>250</x>
+     <y>150</y>
+     <width>202</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_5">
+    <item>
+     <widget class="QLabel" name="label_7">
+      <property name="font">
+       <font>
+        <family>Poppins</family>
+        <pointsize>10</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Jenis</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="addType">
+      <property name="minimumSize">
+       <size>
+        <width>200</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <family>Poppins</family>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLineEdit{
+	border: 1px solid #D9D9D9;
+	border-radius: 6px;
+	padding:0 10px 0 10px;
+}
+
+QLineEdit:focus{
+	border: 1px solid #3D6CEE;
+}</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QPushButton" name="cancelBtn">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>320</y>
+     <width>100</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Poppins</family>
+     <pointsize>10</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+	background-color: white;
+	border: 1px solid #D9D9D9;
+	border-radius: 6px;
+}
+
+QPushButton:hover{
+	color: #3D6CEE;
+	border: 1px solid #3D6CEE;
+}</string>
+   </property>
+   <property name="text">
+    <string>Cancel</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="layoutWidget_4">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>150</y>
+     <width>202</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_4">
+    <item>
+     <widget class="QLabel" name="label_6">
+      <property name="font">
+       <font>
+        <family>Poppins</family>
+        <pointsize>10</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Tanggal</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="addDate">
+      <property name="minimumSize">
+       <size>
+        <width>200</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <family>Poppins</family>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLineEdit{
+	border: 1px solid #D9D9D9;
+	border-radius: 6px;
+	padding:0 10px 0 10px;
+}
+
+QLineEdit:focus{
+	border: 1px solid #3D6CEE;
+}</string>
+      </property>
+      <property name="placeholderText">
+       <string>yyyy-mm-dd</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>20</y>
+     <width>243</width>
+     <height>42</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <property name="spacing">
+     <number>6</number>
+    </property>
+    <item>
+     <widget class="QLabel" name="label">
+      <property name="minimumSize">
+       <size>
+        <width>200</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>200</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <family>Poppins</family>
+        <pointsize>15</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Add Transaction</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="label_2">
+      <property name="minimumSize">
+       <size>
+        <width>35</width>
+        <height>35</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>35</width>
+        <height>35</height>
+       </size>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap>:/icons/transactions-blue.svg</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
  </widget>
  <resources>
   <include location="../assets/icons/resources.qrc"/>
+  <include location="../../../../Python/Lib/site-packages/qt5_applications/Qt/assets/icons/resources.qrc"/>
  </resources>
  <connections/>
 </ui>

@@ -13,7 +13,6 @@ class SatuanEnum(str, Enum):
 
 # Base schema untuk Barang
 class BarangBase(BaseModel):
-    kd_barang: str
     nama: str
     deskripsi: Optional[str] = None
     satuan: SatuanEnum

@@ -382,7 +382,6 @@ QPushButton:hover{
  </widget>
  <resources>
   <include location="../assets/icons/resources.qrc"/>
-  <include location="../../../../Python/Lib/site-packages/qt5_applications/Qt/assets/icons/resources.qrc"/>
  </resources>
  <connections/>
 </ui>

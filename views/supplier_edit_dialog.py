@@ -3,6 +3,10 @@ from PyQt5 import uic
 from PyQt5.QtCore import Qt
 import resources_rc
 
+from database.db import db
+from modules.inventory.services import BarangService, SupplierService
+from modules.inventory.schemas import SupplierUpdate, BarangUpdate
+
 class SupplierEditDialog(QDialog):
     def __init__(self, table, row):
         super(SupplierEditDialog, self).__init__()
@@ -11,12 +15,21 @@ class SupplierEditDialog(QDialog):
         self.table = table
         self.row = row
         
-        item_code = table.item(row, 1).text()
-        supplier_name = table.item(row, 2).text()
-        phone_number = table.item(row, 3).text()
-        address = table.item(row, 4).text()
+        # item_code = table.item(row, 1).text()
+        supplier_name = table.item(row, 1).text()
+        phone_number = table.item(row, 2).text()
+        address = table.item(row, 3).text()
         
-        self.editItemCode.setText(item_code)
+        self.kd_brng = ""
+        barangexits = BarangService.get_all(db)
+        
+        for brg in barangexits:
+            if brg.id_supplier == table.item(row, 0).text():
+                self.kd_brng = brg.kd_barang
+                break
+        
+        self.supp_id = table.item(row, 0).text()
+        self.editItemCode.setText(self.kd_brng)
         self.editSupplierName.setText(supplier_name)
         self.editPhoneNumber.setText(phone_number)
         self.editAddress.setText(address)
@@ -35,11 +48,33 @@ class SupplierEditDialog(QDialog):
         phone_number = self.editPhoneNumber.text()
         address = self.editAddress.text()
         
-        # update the table data
-        self.table.setItem(self.row, 1, self.__new__item(item_code))
-        self.table.setItem(self.row, 2, self.__new__item(supplier_name))
-        self.table.setItem(self.row, 3, self.__new__item(phone_number))
-        self.table.setItem(self.row, 4, self.__new__item(address))
+        # logic here
+        exist_barang = BarangService.get_all(db)
+        
+        found_item = 0
+        for barang in exist_barang:
+            if item_code == barang.kd_barang:
+                found_item =+ 1
+        
+        if(found_item <= 0):
+            self.editItemCode.setText("")
+            self.editItemCode.setPlaceholderText("Barang tidak ditemukan")
+            return
+        
+        payload = SupplierUpdate(
+            nama=supplier_name,
+            telepon=phone_number,
+            alamat=address,
+        )
+        
+        supplier = SupplierService.update(db, self.supp_id, payload)
+        
+        for barang in exist_barang:
+            if barang.kd_barang == item_code:
+                payload_barang = BarangUpdate(
+                    id_supplier= supplier.id,
+                )
+                BarangService.update(db, barang.id, payload_barang)
         
         self.accept() # close dialog
         

@@ -82,43 +82,58 @@ class ScannerService:
     
     # Metode statis untuk menyimpan data hasil pemindaian
     @staticmethod
-    def save_data(data_scanner: json, id_gudang: str):
-        # data_scanner = json.loads(ScannerService.scan_invoice(path))
-        
-        print(data_scanner)
-        
-        exist_supplier = SupplierService.get_all(db)
-        
-        for existing_supplier in exist_supplier:
-            if existing_supplier.nama == data_scanner["supplier"]["nama"]:
-                print(f"Supplier {existing_supplier.nama} already exists.")
-                return
-        
-        # Mengambil data supplier dari hasil pemindaian
-        supp = data_scanner["supplier"]
-        
-        if supp["telepon"] is None:
-            telepon = "0"
-        else: telepon = supp["telepon"]
-        
-        data_supplier = SupplierCreate(
-            nama= supp["nama"],
-            alamat=supp["alamat"],
-            telepon= telepon,
-            id_gudang=id_gudang
+    def save_data(data_scanner: dict, id_gudang: str):
+        # Debug log
+        print(f"[DEBUG] Data hasil scanner:\n{data_scanner}")
+
+        # Ambil semua supplier yang sudah ada
+        existing_suppliers = SupplierService.get_all(db)
+
+        # Cek apakah supplier sudah ada berdasarkan nama
+        scanned_supplier = data_scanner["supplier"]
+        matching_supplier = next(
+            (s for s in existing_suppliers if s.nama.lower() == scanned_supplier["nama"].lower()),
+            None
         )
-        
-        # print(data_supplier)
-        # Menyimpan data supplier
-        supplier = SupplierService.store(db, data_supplier)
-        
-        # Mengambil data barang dari hasil pemindaian
+
+        if matching_supplier:
+            print(f"Supplier '{matching_supplier.nama}' sudah ada.")
+            supplier = matching_supplier
+        else:
+            # Normalisasi data supplier
+            telepon = scanned_supplier.get("telepon") or "0"
+
+            # Simpan supplier baru
+            data_supplier = SupplierCreate(
+                nama=scanned_supplier["nama"],
+                alamat=scanned_supplier["alamat"],
+                telepon=telepon,
+                id_gudang=id_gudang
+            )
+            supplier = SupplierService.store(db, data_supplier)
+            print(f"Supplier '{supplier.nama}' berhasil disimpan.")
+
+        # Ambil semua barang yang sudah ada
+        existing_items = BarangService.get_all(db)
+
         for i, item in enumerate(data_scanner["items"], start=1):
-            # Menggunakan format kode barang yang unik
-            # Misalnya: BRG0001, BRG0002, dst.
+            # Cek apakah barang sudah ada berdasarkan nama + supplier + gudang
+            duplicate = next(
+                (b for b in existing_items
+                if b.nama.lower() == item["nama_barang"].lower()
+                and b.id_supplier == supplier.id
+                and b.id_gudang == id_gudang),
+                None
+            )
+
+            if duplicate:
+                print(f"Barang '{item['nama_barang']}' dari supplier ini sudah ada. Lewati.")
+                continue  # Lewati jika duplikat
+
+            # Generate kode barang unik
             kd_barang = f"BRG{i:04d}"
-            
-            # Membuat objek BarangCreate dengan data yang diperlukan
+
+            # Simpan barang baru
             data_barang = BarangCreate(
                 kd_barang=kd_barang,
                 nama=item["nama_barang"],
@@ -130,6 +145,6 @@ class ScannerService:
                 id_supplier=supplier.id,
                 id_gudang=id_gudang
             )
-            
+
             BarangService.store(db, data_barang)
-            # print(data_barang)
+            print(f"Barang '{item['nama_barang']}' berhasil disimpan.")

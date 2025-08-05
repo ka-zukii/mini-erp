@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+from sqlalchemy import func
 from modules.inventory.models.barang import Barang
 from modules.inventory.schemas.barang_schema import BarangCreate, BarangUpdate
 
@@ -18,7 +19,7 @@ class BarangService:
     @staticmethod
     def store(db: Session, data: BarangCreate):
         data_barang = Barang(
-            kd_barang = data.kd_barang,
+            kd_barang = BarangService.generate_kode_barang(db),
             nama = data.nama,
             deskripsi = data.deskripsi,
             satuan = data.satuan,
@@ -61,3 +62,12 @@ class BarangService:
         db.delete(barang)
         db.commit()
         return True
+    def generate_kode_barang(db: Session):
+        # Mengambil kode barang terakhir
+        last = db.query(Barang).order_by(Barang.kd_barang.desc()).first()
+        if last:
+            last_number = int(last.kd_barang.split('-')[-1])
+            new_number = last_number + 1
+        else:
+            new_number = 1
+        return f"BRG-{new_number:03d}"

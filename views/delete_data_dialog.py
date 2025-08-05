@@ -3,8 +3,8 @@ from PyQt5 import uic
 from PyQt5.QtCore import Qt
 import resources_rc
 
+from modules.inventory.services import GudangService, BarangService, KategoriService, SupplierService, TransaksiService
 from database.db import db
-from modules.inventory.services.gudang_service import GudangService
 
 class DeleteDataDialog(QDialog):
     def __init__(self, table, row, table_name):
@@ -28,9 +28,20 @@ class DeleteDataDialog(QDialog):
         # self.table.removeRow(self.row)
         
         if self.table_name == "Gudang":
-            gudang_id = self.table.item(self.row, 0).text()
-            GudangService.destroy(db, gudang_id)
-        
+            warehouse_id = self.table.item(self.row, 0).text()
+            GudangService.destroy(db, warehouse_id)
+        elif self.table_name == "Barang":
+            item_id = self.table.item(self.row, 0).text()
+            BarangService.destroy(db, item_id)
+        elif self.table_name == "Kategori":
+            category_id = self.table.item(self.row, 0).text()
+            KategoriService.destroy(db, category_id)
+        elif self.table_name == "Supplier":
+            supplier_id = self.table.item(self.row, 0).text()
+            SupplierService.destroy(db, supplier_id)
+        elif self.table_name == "Transaksi":
+            transaction_id = self.table.item(self.row, 0).text()
+            TransaksiService.destroy(db, transaction_id)
         self.accept()
     
     # Function for dragable dialog window

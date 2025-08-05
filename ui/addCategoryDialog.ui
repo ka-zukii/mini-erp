@@ -10,18 +10,6 @@
     <height>340</height>
    </rect>
   </property>
-  <property name="minimumSize">
-   <size>
-    <width>470</width>
-    <height>340</height>
-   </size>
-  </property>
-  <property name="maximumSize">
-   <size>
-    <width>470</width>
-    <height>349</height>
-   </size>
-  </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
@@ -32,110 +20,6 @@
 	border-radius: 10px;
 }</string>
   </property>
-  <widget class="QWidget" name="layoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>20</y>
-     <width>243</width>
-     <height>42</height>
-    </rect>
-   </property>
-   <layout class="QHBoxLayout" name="horizontalLayout">
-    <property name="spacing">
-     <number>6</number>
-    </property>
-    <item>
-     <widget class="QLabel" name="label">
-      <property name="minimumSize">
-       <size>
-        <width>200</width>
-        <height>40</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>200</width>
-        <height>40</height>
-       </size>
-      </property>
-      <property name="font">
-       <font>
-        <family>Poppins</family>
-        <pointsize>15</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>Edit Category Data</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLabel" name="label_2">
-      <property name="minimumSize">
-       <size>
-        <width>35</width>
-        <height>35</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>35</width>
-        <height>35</height>
-       </size>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="pixmap">
-       <pixmap>:/icons/edit-blue.svg</pixmap>
-      </property>
-      <property name="scaledContents">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QPushButton" name="closeBtn">
-   <property name="geometry">
-    <rect>
-     <x>430</x>
-     <y>5</y>
-     <width>35</width>
-     <height>35</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QPushButton{
-	border: none;
-}
-
-QPushButton:hover{
-	border-left: 1px solid #D9D9D9;
-	border-bottom: 1px solid #D9D9D9;
-	border-bottom-left-radius: 6px;
-}</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>:/icons/close.svg</normaloff>:/icons/close.svg</iconset>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>20</width>
-     <height>20</height>
-    </size>
-   </property>
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-  </widget>
   <widget class="QWidget" name="layoutWidget_4">
    <property name="geometry">
     <rect>
@@ -162,7 +46,7 @@ QPushButton:hover{
      </widget>
     </item>
     <item>
-     <widget class="QLineEdit" name="editCategoryName">
+     <widget class="QLineEdit" name="addCategoryName">
       <property name="minimumSize">
        <size>
         <width>200</width>
@@ -217,7 +101,7 @@ QLineEdit:focus{
      </widget>
     </item>
     <item>
-     <widget class="QLineEdit" name="editDescription">
+     <widget class="QLineEdit" name="addDescription">
       <property name="minimumSize">
        <size>
         <width>430</width>
@@ -252,7 +136,7 @@ QLineEdit:focus{
     </item>
    </layout>
   </widget>
-  <widget class="QPushButton" name="saveBtn">
+  <widget class="QPushButton" name="addBtn">
    <property name="geometry">
     <rect>
      <x>350</x>
@@ -282,7 +166,44 @@ QPushButton:hover{
 }</string>
    </property>
    <property name="text">
-    <string>Save</string>
+    <string>Add</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="closeBtn">
+   <property name="geometry">
+    <rect>
+     <x>420</x>
+     <y>20</y>
+     <width>35</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+	border: none;
+}
+
+QPushButton:hover{
+	border-left: 1px solid #D9D9D9;
+	border-bottom: 1px solid #D9D9D9;
+	border-bottom-left-radius: 6px;
+}</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>:/icons/close.svg</normaloff>:/icons/close.svg</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>20</width>
+     <height>20</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
    </property>
   </widget>
   <widget class="QPushButton" name="cancelBtn">
@@ -317,6 +238,73 @@ QPushButton:hover{
    <property name="text">
     <string>Cancel</string>
    </property>
+  </widget>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>20</y>
+     <width>203</width>
+     <height>42</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <property name="spacing">
+     <number>6</number>
+    </property>
+    <item>
+     <widget class="QLabel" name="label">
+      <property name="minimumSize">
+       <size>
+        <width>160</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>160</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <family>Poppins</family>
+        <pointsize>15</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Add Category</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="label_2">
+      <property name="minimumSize">
+       <size>
+        <width>35</width>
+        <height>35</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>35</width>
+        <height>35</height>
+       </size>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap>:/icons/category-blue.svg</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources>

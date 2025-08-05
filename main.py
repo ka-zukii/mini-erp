@@ -3,7 +3,12 @@ from PyQt5.QtWidgets import QApplication
 import sys
 from views.warehouse_selection import WarehouseSelection
 
+from modules.inventory.services import ExcelService
+from database.db import db
+
 def app():
+    
+    # ExcelService.export_barang(db)
     
     app = QApplication(sys.argv)
     selection = WarehouseSelection()

@@ -4,8 +4,8 @@ from PyQt5.QtCore import Qt
 import resources_rc
 
 from database.db import db
-from modules.inventory.services.gudang_service import GudangService
-from modules.inventory.schemas.gudang_schema import GudangUpdate
+from modules.inventory.services import GudangService
+from modules.inventory.schemas import GudangUpdate
 
 class WarehouseEditDialog(QDialog):
     def __init__(self, table, row):
@@ -14,7 +14,6 @@ class WarehouseEditDialog(QDialog):
         
         self.table = table
         self.row = row
-        
         
         warehouse_name = table.item(row, 1).text()
         description = table.item(row, 2).text()
@@ -33,17 +32,18 @@ class WarehouseEditDialog(QDialog):
         self.closeBtn.clicked.connect(self.close)
         
     def save_edited_data(self):
+        
         warehouse_name = self.editWarehouseName.text()
         description = self.editDescription.text()
         location = self.editLocation.text()
         
-        payload_gudang = GudangUpdate(
+        payload = GudangUpdate(
             nama=warehouse_name,
-            lokasi=location,
-            keterangan=description
+            keterangan=description,
+            lokasi=location
         )
         
-        GudangService.update(db, self.warehouse_id, payload_gudang)
+        GudangService.update(db, self.warehouse_id, payload)
         
         self.accept()
         

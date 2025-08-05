@@ -37,7 +37,7 @@
     <rect>
      <x>20</x>
      <y>20</y>
-     <width>243</width>
+     <width>269</width>
      <height>42</height>
     </rect>
    </property>
@@ -49,13 +49,13 @@
      <widget class="QLabel" name="label">
       <property name="minimumSize">
        <size>
-        <width>200</width>
+        <width>226</width>
         <height>40</height>
        </size>
       </property>
       <property name="maximumSize">
        <size>
-        <width>200</width>
+        <width>226</width>
         <height>40</height>
        </size>
       </property>
@@ -68,7 +68,7 @@
        </font>
       </property>
       <property name="text">
-       <string>Tambah Data Transaksi</string>
+       <string>Edit Data Transaction</string>
       </property>
      </widget>
     </item>
@@ -90,7 +90,7 @@
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap resource="../assets/icons/resources.qrc">:/icons/edit-blue.svg</pixmap>
+       <pixmap>:/icons/edit-blue.svg</pixmap>
       </property>
       <property name="scaledContents">
        <bool>true</bool>
@@ -123,8 +123,8 @@ QPushButton:hover{
     <string/>
    </property>
    <property name="icon">
-    <iconset resource="../assets/icons/resources.qrc">
-     <normaloff>:/icons/close.svg</normaloff>:/icons/close.svg</iconset>
+    <iconset>
+     <normaloff>:/icons/close-blue.svg</normaloff>:/icons/close-blue.svg</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -163,61 +163,6 @@ QPushButton:hover{
     </item>
     <item>
      <widget class="QLineEdit" name="editItemCode">
-      <property name="minimumSize">
-       <size>
-        <width>200</width>
-        <height>30</height>
-       </size>
-      </property>
-      <property name="font">
-       <font>
-        <family>Poppins</family>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QLineEdit{
-	border: 1px solid #D9D9D9;
-	border-radius: 6px;
-	padding:0 10px 0 10px;
-}
-
-QLineEdit:focus{
-	border: 1px solid #3D6CEE;
-}</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QWidget" name="layoutWidget_3">
-   <property name="geometry">
-    <rect>
-     <x>250</x>
-     <y>80</y>
-     <width>202</width>
-     <height>61</height>
-    </rect>
-   </property>
-   <layout class="QVBoxLayout" name="verticalLayout_3">
-    <item>
-     <widget class="QLabel" name="label_5">
-      <property name="font">
-       <font>
-        <family>Poppins</family>
-        <pointsize>10</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>Kode Gudang</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLineEdit" name="editWarehouseCode">
       <property name="minimumSize">
        <size>
         <width>200</width>
@@ -297,6 +242,9 @@ QLineEdit:focus{
 	border: 1px solid #3D6CEE;
 }</string>
       </property>
+      <property name="placeholderText">
+       <string>yyyy-mm-dd</string>
+      </property>
      </widget>
     </item>
    </layout>
@@ -359,8 +307,8 @@ QLineEdit:focus{
   <widget class="QWidget" name="layoutWidget_6">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>220</y>
+     <x>250</x>
+     <y>80</y>
      <width>202</width>
      <height>61</height>
     </rect>
@@ -415,7 +363,7 @@ QLineEdit:focus{
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>360</y>
+     <y>320</y>
      <width>100</width>
      <height>40</height>
     </rect>
@@ -427,6 +375,18 @@ QLineEdit:focus{
      <weight>75</weight>
      <bold>true</bold>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+	background-color: white;
+	border: 1px solid #D9D9D9;
+	border-radius: 6px;
+}
+
+QPushButton:hover{
+	color: #3D6CEE;
+	border: 1px solid #3D6CEE;
+}</string>
    </property>
    <property name="text">
     <string>Cancel</string>
@@ -436,7 +396,7 @@ QLineEdit:focus{
    <property name="geometry">
     <rect>
      <x>350</x>
-     <y>360</y>
+     <y>320</y>
      <width>100</width>
      <height>40</height>
     </rect>
@@ -449,6 +409,18 @@ QLineEdit:focus{
      <bold>true</bold>
     </font>
    </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+	background-color: white;
+	border: 1px solid #D9D9D9;
+	border-radius: 6px;
+}
+
+QPushButton:hover{
+	color: #3D6CEE;
+	border: 1px solid #3D6CEE;
+}</string>
+   </property>
    <property name="text">
     <string>Save</string>
    </property>
@@ -457,7 +429,7 @@ QLineEdit:focus{
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>290</y>
+     <y>250</y>
      <width>432</width>
      <height>61</height>
     </rect>

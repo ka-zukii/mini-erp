@@ -5,11 +5,11 @@ from PyQt5.QtCore import Qt, QSize
 from .add_warehouse_dialog import AddWarehouseDialog
 from .warehouse_edit_dialog import WarehouseEditDialog
 from .delete_data_dialog import DeleteDataDialog
-import data_dummy
 import resources_rc
+import data_dummy
 
 from database.db import db
-from modules.inventory.services.gudang_service import GudangService
+from modules.inventory.services import GudangService
 
 class WarehouseSelection(QDialog):
     def __init__(self):
@@ -33,19 +33,15 @@ class WarehouseSelection(QDialog):
         return self.selected_warehouse_id
         
     def load_data_warehouse(self):
-        self.data_gudang = GudangService.get_all(db)
-        self.totalWarehouseCount.setText(str(len(self.data_gudang)))
-        
-        # Menampilkan data gudang di tabel
         warehouse_tables = [
             {
                 "table": self.warehouseTableWidget,
                 "headers": ["ID", "Nama Warehouse", "Keterangan", "Lokasi", ""],
-                "data": GudangService.get_all(db)
+                "fields": ["id", "nama", "keterangan", "lokasi"],
+                "data": self.data_gudang
             },
         ]
         
-        # Mengeluarkan data ke tabel
         for info in warehouse_tables:
             table = info["table"]
             headers = info["headers"]
@@ -60,14 +56,13 @@ class WarehouseSelection(QDialog):
             
             self.adjust_table_columns(table, len(headers) - 1)
 
-            for row_num, row_data in enumerate(data):
+            for row_num, item in enumerate(data):
+                fields = info.get("fields")
+                for col_num, field in enumerate(fields):
+                    value = getattr(item, field, "")
+                    table.setItem(row_num, col_num, QTableWidgetItem(str(value)))
                 
-                table.setItem(row_num, 0, QTableWidgetItem(row_data.id))
-                table.setItem(row_num, 1, QTableWidgetItem(row_data.nama))
-                table.setItem(row_num, 2, QTableWidgetItem(row_data.keterangan))
-                table.setItem(row_num, 3, QTableWidgetItem(row_data.lokasi))
-                
-                warehouse_id = row_data.id    
+                warehouse_id = item.id   
                 self.add_action_buttons(table, row_num, warehouse_id)
                 
     def add_action_buttons(self, table, row, warehouse_id):
@@ -180,6 +175,7 @@ class WarehouseSelection(QDialog):
     def add_warehouse(self):
         dialog = AddWarehouseDialog(self)
         dialog.exec_()
+        self.data_gudang = GudangService.get_all(db)
         self.load_data_warehouse()
     
     def edit_row(self, table, button):
@@ -187,15 +183,16 @@ class WarehouseSelection(QDialog):
         row = index.row()
         dialog = WarehouseEditDialog(table, row)
         dialog.exec_()
+        self.data_gudang = GudangService.get_all(db)
         self.load_data_warehouse()
 
     def delete_row(self, table, button):
         # find real-time row
         index = table.indexAt(button.parent().pos())
         row = index.row()
-        
         dialog = DeleteDataDialog(table, row, "Gudang")
         dialog.exec_()
+        self.data_gudang = GudangService.get_all(db)
         self.load_data_warehouse()
 
     # Function for dragable dialog window

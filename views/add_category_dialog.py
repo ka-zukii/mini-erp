@@ -4,34 +4,33 @@ from PyQt5.QtCore import Qt
 import resources_rc
 
 from database.db import db
-from modules.inventory.services import GudangService
-from modules.inventory.schemas import GudangCreate
+from modules.inventory.services import KategoriService
+from modules.inventory.schemas import KategoriCreate
 
-class AddWarehouseDialog(QDialog):
-    def __init__(self, parent=None):
-        super(AddWarehouseDialog, self).__init__(parent)
-        uic.loadUi("ui/addWarehouseDialog.ui", self)
+class AddCategoryDialog(QDialog):
+    def __init__(self, parent=None, warehouse_id=None):
+        super(AddCategoryDialog, self).__init__(parent)
+        uic.loadUi("ui/addCategoryDialog.ui", self)
         
+        self.warehouse_id = warehouse_id
         self.setWindowFlags(Qt.FramelessWindowHint)
-        
         self.closeBtn.clicked.connect(self.close)
+        self.addBtn.clicked.connect(self.add_category)
         self.cancelBtn.clicked.connect(self.reject)
-        self.addBtn.clicked.connect(self.add_warehouse)
         
-    def add_warehouse(self):
-        nama = self.addWarehouseName.text()
-        deskripsi = self.addDescription.text()
-        lokasi = self.addLocation.text()
+    def add_category(self):
+        nama = self.addCategoryName.text()
+        desk = self.addDescription.text()
         
-        payload = GudangCreate(
+        payload = KategoriCreate(
             nama=nama,
-            keterangan=deskripsi,
-            lokasi=lokasi
+            deskripsi=desk,
+            id_gudang=self.warehouse_id
         )
         
-        GudangService.store(db, payload)
+        KategoriService.store(db, payload)
         self.accept()
-        
+    
     def mousePressEvent(self, event):
         if event.buttons() == Qt.LeftButton:
             self.dragPos = event.globalPos()
@@ -41,4 +40,3 @@ class AddWarehouseDialog(QDialog):
             self.move(self.pos() + event.globalPos() - self.dragPos)
             self.dragPos = event.globalPos()
             event.accept()
-        
