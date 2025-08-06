@@ -96,7 +96,7 @@ class ScannerService:
             None
         )
 
-        if matching_supplier:
+        if matching_supplier and matching_supplier.id_gudang == id_gudang:
             print(f"Supplier '{matching_supplier.nama}' sudah ada.")
             supplier = matching_supplier
         else:
