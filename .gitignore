@@ -1,6 +1,12 @@
 __pycache__/
 **/__pycache__/
 
+# Virtual Environment
 venv
 env
 .env
+*.pyc
+
+# Alembic
+alembic/versions/*
+!alembic/versions/.gitkeep
