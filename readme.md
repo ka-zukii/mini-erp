@@ -20,7 +20,7 @@ pip install -r requirements.txt
 
 ### 1. Konfigurasi .env
 
-Rubah file .env.example menjadi .env lalu pada nilai DATABASE_URL dirubah menggunakan URL Database yang anda miliki. 
+Rubah file .env.example menjadi .env lalu pada nilai DATABASE_URL dirubah menggunakan URL Database yang anda miliki.
 
 Noted: Proyek ini menggunakan PostgreeSQL sebagai database utama.
 
@@ -39,4 +39,5 @@ Setelah file migration dibuat, jalankan perintah ini untuk menerapkan perubahan 
 ```bash
 alembic upgrade head
 ```
+
 Noted: Jika terjadi error pada saat menjalankan migration. jika didalam directory alembic/ tidak terdapat directory versions, anda harus membuatnya terlebih dahulu.
